@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\AuthController;
 
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
@@ -13,3 +14,5 @@ Route::prefix('users')->group(function () {
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
+
+    Route::post('/login', [AuthController::class, 'login']);
