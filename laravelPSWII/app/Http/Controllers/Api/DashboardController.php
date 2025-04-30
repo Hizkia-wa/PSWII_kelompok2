@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Http\Resources\ApiResponseResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\Permohonan;
+use App\Models\ObjekRetribusi;
 
 class UserController extends Controller
 {
@@ -109,4 +111,31 @@ class UserController extends Controller
 
         return ApiResponseResource::success('User yang dihapus berhasil diambil', $users);
     }
+
+    
+}class DashboardController extends Controller
+{
+    public function index()
+    {
+        return response()->json([
+            'total_user' => User::count(),
+            'permohonan_aktif' => Permohonan::where('status', 'Proses')->count(),
+            'objek_retribusi' => ObjekRetribusi::count()
+        ]);
+    }
 }
+
+// File: app/Models/Permohonan.php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Permohonan extends Model
+{
+    protected $fillable = [
+        'nama_pemohon', 'jenis_permohonan', 'objek_retribusi', 'tanggal_pengajuan', 'status'
+    ];
+}
+
+

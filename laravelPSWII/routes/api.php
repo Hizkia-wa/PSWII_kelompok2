@@ -1,18 +1,17 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\PermohonanController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\AuthController;
 
-Route::prefix('users')->group(function () {
-    Route::get('/', [UserController::class, 'index']);
-    Route::get('/active', [UserController::class, 'activeUsers']); // opsional
-    Route::get('/deleted', [UserController::class, 'deletedUsers']); // opsional
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::post('/', [UserController::class, 'store']);
-    Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/permohonan', [PermohonanController::class, 'index']);
+    Route::post('/permohonan', [PermohonanController::class, 'store']);
+    Route::get('/permohonan/{id}', [PermohonanController::class, 'show']);
+    Route::put('/permohonan/{id}', [PermohonanController::class, 'update']);
+    Route::delete('/permohonan/{id}', [PermohonanController::class, 'destroy']);
 });
-
-    Route::post('/login', [AuthController::class, 'login']);

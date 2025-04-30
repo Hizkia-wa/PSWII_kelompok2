@@ -1,19 +1,19 @@
-// src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import Sidebar from './Components/Sidebar';
-import DaftarUser from './Pages/DaftarUser';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./Pages/Dashboard";
+import Login from "./Pages/Login";
+import Permohonan from "./Pages/Permohonan";
 
 function App() {
   return (
     <Router>
       <div className="flex">
         <Sidebar />
-        <div className="flex-grow p-6">
+        <div className="flex-grow">
           <Routes>
-            <Route path="/daftar-user" element={<DaftarUser />} />
-            {/* Tambahkan route lainnya di sini */}
+            <Route path="/" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/permohonan" element={<Permohonan />} />
           </Routes>
         </div>
       </div>
