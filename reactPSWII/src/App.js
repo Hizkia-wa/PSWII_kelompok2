@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import Dashboard from "./Pages/Dashboard";
-import Login from "./Pages/Login";
-import Permohonan from "./Pages/Permohonan";
+import Dashboard from "./pages/Dashboard"; // Fixed path: Pages -> pages
+import Login from "./pages/Login"; // Fixed path: Pages -> pages
+import Permohonan from "./pages/Permohonan"; // Fixed path: Pages -> pages
 
 function App() {
   return (
