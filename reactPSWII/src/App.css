@@ -1,38 +1,73 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #002b40;
   color: white;
+  padding: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.main {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px 0 0 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 8px;
+  width: 200px;
+}
+
+.card-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+.info-card {
+  flex: 1;
+  background: #f4f4f4;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.info-card.blue { border-left: 5px solid #007bff; }
+.info-card.green { border-left: 5px solid #28a745; }
+.info-card.gray { border-left: 5px solid #6c757d; }
+
+.permohonan table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.permohonan th, .permohonan td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.status.proses {
+  color: green;
+  font-weight: bold;
+}
+
+.btn-tambah {
+  float: right;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }

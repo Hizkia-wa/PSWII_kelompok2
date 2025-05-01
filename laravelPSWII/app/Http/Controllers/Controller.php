@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Routing\Controller as BaseController;
 
-class AuthController extends Controller
+class AuthController extends Controllers
 {
     public function login(Request $request)
     {
@@ -21,4 +23,20 @@ class AuthController extends Controller
 
         return response()->json(['token' => $token]);
     }
+
+    public function store(Request $request)
+{
+    $admin = Admin::create([
+        'username' => $request->username,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    return response()->json($admin);
+}
+
+}
+class Controller extends BaseController
+{
+    // Methods can be added here
 }

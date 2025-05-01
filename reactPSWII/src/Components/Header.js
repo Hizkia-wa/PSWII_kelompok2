@@ -1,11 +1,11 @@
-// src/components/Header.js
 import React from "react";
+import "./Header.css";
 
 const Header = () => {
   return (
     <div className="header">
-      <input type="text" placeholder="Cari..." />
-      <div className="admin">Admin</div>
+      <input type="text" placeholder="Cari..." className="search-input" />
+      <div className="admin-info">👤 Admin</div>
     </div>
   );
 };

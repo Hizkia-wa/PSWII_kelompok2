@@ -1,0 +1,45 @@
+.dashboard {
+  padding: 20px;
+}
+
+.card-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+.permohonan {
+  margin-top: 20px;
+}
+
+.permohonan h3 {
+  display: inline-block;
+}
+
+.btn-tambah {
+  float: right;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.permohonan table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.permohonan th, .permohonan td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.status.proses {
+  color: green;
+  font-weight: bold;
+}

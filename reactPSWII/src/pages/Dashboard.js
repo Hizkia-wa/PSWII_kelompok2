@@ -1,28 +1,55 @@
-import { useEffect, useState } from "react";
-import { getDashboardData } from "../api";
+import React from "react";
+import InfoCard from "../Components/InfoCard";
+import "./Dashboard.css";
 
-export default function Dashboard() {
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    getDashboardData(token).then((res) => setData(res.data));
-  }, []);
-
+const Dashboard = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Dashboard Admin</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded shadow">
-          Total User: {data.total_user}
-        </div>
-        <div className="bg-white p-4 rounded shadow">
-          Permohonan Aktif: {data.permohonan_aktif}
-        </div>
-        <div className="bg-white p-4 rounded shadow">
-          Objek Retribusi: {data.objek_retribusi}
-        </div>
+    <div className="dashboard">
+      <h2>Dashboard</h2>
+      <p>Selamat datang di panel Sistem Manajemen Penyewaan</p>
+
+      <div className="card-container">
+        <InfoCard title="Total User" value="125" icon="👥" color="blue" />
+        <InfoCard title="Permohonan Aktif" value="53" icon="📄" color="green" />
+        <InfoCard title="Objek Retribusi" value="87" icon="🏢" color="gray" />
+      </div>
+
+      <div className="permohonan">
+        <h3>Permohonan Terbaru</h3>
+        <button className="btn-tambah">+ Tambah Data</button>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nama Pemohon</th>
+              <th>Jenis Permohonan</th>
+              <th>Objek Retribusi</th>
+              <th>Tanggal Pengajuan</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>001</td>
+              <td>Hotdi Sibuan</td>
+              <td>Sewa Tahunan</td>
+              <td>Kios Pasar Porsea</td>
+              <td>13/04/2025</td>
+              <td>
+                <span className="status proses">Proses</span>
+              </td>
+              <td>
+                <button>👁️</button>
+                <button>✏️</button>
+                <button>🗑️</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;
