@@ -20,6 +20,9 @@ export default function Sidebar() {
         <li>
           <Link to="/permohonan">Permohonan</Link>
         </li>
+        <li>
+          <Link to="/daftaruser">Daftar User</Link>
+        </li>
       </ul>
     </div>
   );

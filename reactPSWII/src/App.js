@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./Components/Sidebar";
 import Dashboard from "./pages/Dashboard"; // Fixed path: Pages -> pages
 import Login from "./pages/Login"; // Fixed path: Pages -> pages
 import Permohonan from "./pages/Permohonan"; // Fixed path: Pages -> pages
+import DaftarUser from "./pages/DaftarUser";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/permohonan" element={<Permohonan />} />
+            <Route path="/daftaruser" element={<DaftarUser />} />
           </Routes>
         </div>
       </div>
