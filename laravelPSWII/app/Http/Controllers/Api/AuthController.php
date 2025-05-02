@@ -11,27 +11,48 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // ✅ Validasi input: username dan password wajib ada
+        // Validasi
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // ✅ Cek user berdasarkan username
+        // 🔐 Hardcoded admin login
+        if (
+            $request->username === 'admin@tapatupa.id' &&
+            $request->password === 'admin123'
+        ) {
+            $adminUser = [
+                'id' => 0,
+                'name' => 'Administrator',
+                'username' => 'admin@tapatupa.id',
+                'role' => 'admin',
+            ];
+
+            $token = base64_encode('admin-token');
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Login berhasil (admin)',
+                'token' => $token,
+                'user' => $adminUser,
+            ]);
+        }
+
+        // Login user biasa dari database
         $user = User::where('username', $request->username)->first();
 
-        // ❌ Jika user tidak ditemukan atau password salah
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
+                'status' => 'error',
                 'message' => 'Kredensial tidak valid',
             ], 401);
         }
 
-        // ✅ Buat token login
-        $token = $user->createToken('admin-token')->plainTextToken;
+        $token = $user->createToken('login-token')->plainTextToken;
 
-        // ✅ Balasan sukses
         return response()->json([
+            'status' => 'success',
             'message' => 'Login berhasil',
             'token' => $token,
             'user' => $user,

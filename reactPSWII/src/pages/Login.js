@@ -12,29 +12,39 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
-
+    setError(""); // Reset error message
+  
+    // Cek jika email dan password kosong
     if (!form.username || !form.password) {
       setError("Username dan password harus diisi.");
       return;
     }
-
+  
     try {
       setLoading(true);
-      const res = await login(form);
-
-      if (res.status === "success") {
-        localStorage.setItem("token", res.token);
+      
+      // Panggil API login dengan kredensial yang dimasukkan
+      const res = await login(form); // Login API request
+  
+      // Cek status response dari API
+      if (res.data.status === "success") {
+        // Simpan token di localStorage
+        localStorage.setItem("token", res.data.token);
+        
+        // Arahkan ke halaman dashboard
         navigate("/dashboard");
       } else {
-        setError(res.message || "Login gagal");
+        // Tampilkan error jika login gagal
+        setError(res.data.message || "Login gagal");
       }
     } catch (err) {
+      // Tangani error lain jika terjadi
       setError("Terjadi kesalahan saat login. Pastikan API berjalan.");
     } finally {
+      // Set loading menjadi false setelah proses selesai
       setLoading(false);
     }
-  };
+  };  
 
   return (
     <div className="login-container">
