@@ -11,14 +11,30 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        // ✅ Validasi input: username dan password wajib ada
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        // ✅ Cek user berdasarkan username
         $user = User::where('username', $request->username)->first();
 
+        // ❌ Jika user tidak ditemukan atau password salah
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json([
+                'message' => 'Kredensial tidak valid',
+            ], 401);
         }
 
+        // ✅ Buat token login
         $token = $user->createToken('admin-token')->plainTextToken;
 
-        return response()->json(['token' => $token]);
+        // ✅ Balasan sukses
+        return response()->json([
+            'message' => 'Login berhasil',
+            'token' => $token,
+            'user' => $user,
+        ]);
     }
 }

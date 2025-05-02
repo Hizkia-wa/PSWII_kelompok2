@@ -4,25 +4,26 @@ const API = axios.create({
   baseURL: "http://localhost:8000/api",
 });
 
-export const login = (credentials) => API.post("/login", credentials);
-export const getDashboardData = (token) =>
-  API.get("/dashboard", { headers: { Authorization: `Bearer ${token}` } });
-export const getPermohonan = (token) =>
-  API.get("/permohonan", { headers: { Authorization: `Bearer ${token}` } });
-export const createPermohonan = (data, token) =>
-  API.post("/permohonan", data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-export const updatePermohonan = (id, data, token) =>
-  API.put(`/permohonan/${id}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-export const deletePermohonan = (id, token) =>
-  API.delete(`/permohonan/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  export default axios.create({
-    baseURL: "http://127.0.0.1:8000/api",
-    baseURL: "http://localhost:8000/api",
-  });
+// Interceptor untuk otomatis menyisipkan token dari localStorage
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
+// AUTH
+export const login = (credentials) => API.post("/login", credentials);
+
+// DASHBOARD
+export const getDashboardData = () => API.get("/dashboard");
+
+// PERMOHONAN
+export const getPermohonan = () => API.get("/permohonan");
+export const createPermohonan = (data) => API.post("/permohonan", data);
+export const updatePermohonan = (id, data) =>
+  API.put(`/permohonan/${id}`, data);
+export const deletePermohonan = (id) => API.delete(`/permohonan/${id}`);
+
+export default API;

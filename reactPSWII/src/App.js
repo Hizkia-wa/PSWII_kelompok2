@@ -1,5 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import Sidebar from "./Components/Sidebar";
 import Header from "./Components/Header";
 import Dashboard from "./pages/Dashboard";
@@ -11,44 +17,56 @@ import Permohonan from "./pages/Permohonan";
 import Login from "./pages/Login";
 import "./App.css";
 
-function App() {
-  // You can add authentication state here if needed
-  const isAuthenticated = true; // Change this based on your authentication logic
+function AppWrapper() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token); // akan true jika token ada
+  }, []);
 
   return (
     <Router>
-      {!isAuthenticated ? (
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      ) : (
-        <div className="app">
-          <Sidebar />
-          <div className="main">
-            <Header />
-            <div className="content">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                
-               
-                <Route path="/pengguna/data-user" element={<DataUser />} />
-                <Route path="/pengguna/detail-user/:id" element={<DetailUser />} />
-                <Route path="/pengguna/edit-user/:id" element={<EditUser />} />
-                <Route path="/pengguna/tambah-user" element={<TambahUser />} />
-                
-                {/* Permohonan Routes */}
-                <Route path="/permohonan" element={<Permohonan />} />
-               
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </div>
-          </div>
-        </div>
-      )}
+      <AppRoutes isAuthenticated={isAuthenticated} />
     </Router>
   );
 }
 
-export default App;
+function AppRoutes({ isAuthenticated }) {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+
+  if (!isAuthenticated && !isLoginPage) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (isAuthenticated && isLoginPage) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return isAuthenticated ? (
+    <div className="app">
+      <Sidebar />
+      <div className="main">
+        <Header />
+        <div className="content">
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/pengguna/data-user" element={<DataUser />} />
+            <Route path="/pengguna/detail-user/:id" element={<DetailUser />} />
+            <Route path="/pengguna/edit-user/:id" element={<EditUser />} />
+            <Route path="/pengguna/tambah-user" element={<TambahUser />} />
+            <Route path="/permohonan" element={<Permohonan />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  );
+}
+
+export default AppWrapper;

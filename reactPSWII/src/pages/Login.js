@@ -1,50 +1,77 @@
 import { useState } from "react";
-import { login } from "../api";
 import { useNavigate } from "react-router-dom";
+import { login } from "../api";
+import "./Login.css"; 
+import { FaArrowRightToBracket } from "react-icons/fa6";
 
 export default function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await login(form);
-    if (res.data.status === "success") {
-      localStorage.setItem("token", res.data.token);
-      navigate("/dashboard");
-    } else {
-      alert(res.data.message || "Login gagal");
-    }
-  } catch (err) {
-    alert("Terjadi kesalahan saat login.");
-  }
-};
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
 
+    if (!form.username || !form.password) {
+      setError("Username dan password harus diisi.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await login(form);
+
+      if (res.status === "success") {
+        localStorage.setItem("token", res.token);
+        navigate("/dashboard");
+      } else {
+        setError(res.message || "Login gagal");
+      }
+    } catch (err) {
+      setError("Terjadi kesalahan saat login. Pastikan API berjalan.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-8 shadow rounded">
-        <h2 className="mb-4 text-xl font-bold">Login Admin</h2>
-        <input
-          type="text"
-          placeholder="Username"
-          className="border p-2 w-full mb-2"
-          onChange={(e) => setForm({ ...form, username: e.target.value })}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2 w-full mb-4"
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Login
-        </button>
-      </form>
+    <div className="login-container">
+      <div className="login-left">
+      </div>
+      <div className="login-right">
+        <div className="logo-text">TapaTupa</div>
+        <div className="slogan">
+          Platform penyedia layanan gratis untuk masyarakat Toba
+        </div>
+        <form onSubmit={handleLogin} className="login-form">
+          <h2>Masuk Ke Akun Anda</h2>
+
+          {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
+
+          <label>Email</label>
+          <input
+            type="text"
+            placeholder="Masukkan Email Anda"
+            value={form.username}
+            onChange={(e) => setForm({ ...form, username: e.target.value })}
+          />
+
+          <label>Password</label>
+          <input
+            type="password"
+            placeholder="Masukkan Password Anda"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
+
+          <button type="submit" disabled={loading}>
+            <FaArrowRightToBracket />
+            {loading ? "Memproses..." : "Masuk"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
