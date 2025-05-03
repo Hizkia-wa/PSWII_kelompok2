@@ -42,8 +42,8 @@ export default function Login() {
     } finally {
       // Set loading menjadi false setelah proses selesai
       setLoading(false);
-    }
-  };  
+  }
+  };
 
   return (
     <div className="login-container">
