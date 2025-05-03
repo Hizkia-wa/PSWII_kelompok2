@@ -1,9 +1,7 @@
-// pages/pengguna/datauser.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../Components/Header';
 import Sidebar from '../../Components/Sidebar';
-import '../../Components/Dashboard.css';
 import axios from 'axios';
 
 const DataUser = () => {
