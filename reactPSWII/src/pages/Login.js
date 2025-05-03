@@ -28,9 +28,8 @@ export default function Login() {
   
       // Cek status response dari API
       if (res.data.status === "success") {
-        // Simpan token di localStorage
         localStorage.setItem("token", res.data.token);
-        
+        window.location.reload(); // ini memicu AppWrapper re-render & redirect ke /dashboard
         // Arahkan ke halaman dashboard
         navigate("/dashboard");
       } else {
