@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('users', App\Http\Controllers\API\UserController::class);
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/permohonan', [PermohonanController::class, 'index']);
     Route::post('/permohonan', [PermohonanController::class, 'store']);

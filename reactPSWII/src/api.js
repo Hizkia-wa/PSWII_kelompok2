@@ -4,7 +4,7 @@ const API = axios.create({
   baseURL: "http://localhost:8000/api",
 });
 
-// Interceptor untuk otomatis menyisipkan token dari localStorage
+
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {

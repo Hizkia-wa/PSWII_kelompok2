@@ -81,12 +81,15 @@ const Sidebar = () => {
           </div>
         </li>
         {openMenus.pengguna && (
-          <ul className="submenu">
-            <li className={isActive("/pengguna/data-user") ? "active" : ""}>
-              <Link to="/pengguna/data-user">Data User</Link>
-            </li>
-          </ul>
-        )}
+
+
+ <ul className="submenu">
+    <li className={isActive("/pengguna/user-management") ? "active" : ""}>
+    <Link to="/pengguna/data-user">Data User</Link> 
+    </li>
+  </ul>
+)}
+
 
         <li className="menu-item" onClick={() => toggleMenu("permohonan")}>
           <div className="menu-header">

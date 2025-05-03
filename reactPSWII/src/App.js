@@ -9,11 +9,9 @@ import {
 import Sidebar from "./Components/Sidebar";
 import Header from "./Components/Header";
 import Dashboard from "./pages/Dashboard";
-import DataUser from "./pages/pengguna/datauser.js";
-import DetailUser from "./pages/pengguna/detail-user.js";
-import EditUser from "./pages/pengguna/edit-user.js";
-import TambahUser from "./pages/pengguna/tambah-user.js";
 import Permohonan from "./pages/Permohonan";
+import UserManagement from "./pages/Pengguna/UserManagement"; 
+
 import Login from "./pages/Login";
 import "./App.css";
 
@@ -52,11 +50,8 @@ function AppRoutes({ isAuthenticated }) {
         <div className="content">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/pengguna/data-user" element={<DataUser />} />
-            <Route path="/pengguna/detail-user/:id" element={<DetailUser />} />
-            <Route path="/pengguna/edit-user/:id" element={<EditUser />} />
-            <Route path="/pengguna/tambah-user" element={<TambahUser />} />
             <Route path="/permohonan" element={<Permohonan />} />
+            <Route path="/pengguna/data-user" element={<UserManagement />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </div>
