@@ -26,4 +26,8 @@ export const updatePermohonan = (id, data) =>
   API.put(`/permohonan/${id}`, data);
 export const deletePermohonan = (id) => API.delete(`/permohonan/${id}`);
 
-export default API;
+// JENIS PERMOHONAN
+export const getJenisPermohonan = () => API.get("/jenis-permohonan");
+export const createJenisPermohonan = (data) => API.post("/jenis-permohonan", data);
+export const updateJenisPermohonan = (id, data) => API.put(`/jenis-permohonan/${id}`, data);
+export const deleteJenisPermohonan = (id) => API.delete(`/jenis-permohonan/${id}`);
