@@ -5,6 +5,7 @@ use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\PermohonanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JenisPermohonanController;
+use App\Http\Controllers\UserController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -22,4 +23,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('jenis-permohonan', JenisPermohonanController::class);
-});
+
+
+    Route::get('/users', [UserController::class, 'index']);
+    Route::post('/users', [UserController::class, 'store']);
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::put('/users/{id}', [UserController::class, 'update']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    });
+

@@ -112,4 +112,16 @@ return [
 
     'password_timeout' => 10800,
 
+    'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+    'api' => [
+        'driver' => 'sanctum',
+        'provider' => 'users',
+    ],
+],
+
+
 ];
