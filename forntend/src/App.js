@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserList from "./List/UserList";
+import UserFormAdd from "./FormAdd/UserFormAdd";
+import UserFormEdit from "./FormEdit/UserFormEdit";
+import JenisPermohonanList from "./List/JenisPermohonanList";
+import JenisPermohonanAdd from "./FormAdd/JenisPermohonanFormAdd";
+import JenisPermohonanEdit from "./FormEdit/JenisPermohonanFormEdit";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/user" element={<UserList />} />
+        <Route path="/user/add" element={<UserFormAdd />} />
+        <Route path="/user/edit/:id" element={<UserFormEdit />} />
+        <Route path="/" element={<JenisPermohonanList />} /> {/* Menampilkan daftar post */}
+        <Route path="/create" element={<JenisPermohonanAdd />} /> {/* Menampilkan form create */}
+        <Route path="/edit/:id" element={<JenisPermohonanEdit />} /> {/* Menampilkan form edit */}
+      </Routes>
+    </Router>
   );
 }
 
