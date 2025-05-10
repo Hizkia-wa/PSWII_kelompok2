@@ -65,7 +65,7 @@ const JenisPermohonanList = () => {
         <div className="col-md-10 p-4">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h3>Data Jenis Permohonan</h3>
-            <Link to="/create" className="btn btn-primary">
+            <Link to="JenisPermohonan/create" className="btn btn-primary">
               ➕ Tambah Data
             </Link>
           </div>
@@ -96,7 +96,7 @@ const JenisPermohonanList = () => {
                         👁️
                       </Link>
                       <Link
-                        to={`/edit/${item.id}`}
+                        to={`JenisPermohonan/edit/${item.id}`}
                         className="btn btn-warning btn-sm me-2"
                       >
                         ✏️

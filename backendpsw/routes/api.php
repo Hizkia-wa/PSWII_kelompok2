@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\JenisPermohonanController;
 use App\Http\Controllers\API\JenisJangkaWaktuController;
+use App\Http\Controllers\Api\JangkaWaktuSewaController;
 
+Route::apiResource('jangka-waktu-sewa', JangkaWaktuSewaController::class);
 Route::apiResource('/jenis-jangka-waktu', JenisJangkaWaktuController::class);
 Route::apiResource('jenis-permohonan', JenisPermohonanController::class);
 Route::get('/users', [UserController::class, 'index']);
