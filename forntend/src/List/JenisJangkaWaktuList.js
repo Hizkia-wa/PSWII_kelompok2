@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const DaftarJenisJangkaWaktu = () => {
   const [data, setData] = useState([]);
 
   const getData = () => {
     axios.get("http://localhost:8000/api/jenis-jangka-waktu").then((res) => {
-      setData(res.data.data); // pakai .data karena response-nya pakai API Resource
+      setData(res.data.data);
     });
   };
 
@@ -17,32 +18,62 @@ const DaftarJenisJangkaWaktu = () => {
 
   const handleDelete = (id) => {
     if (window.confirm("Yakin ingin menghapus data ini?")) {
-      axios.delete(`http://localhost:8000/api/jenis-jangka-waktu/${id}`).then(() => {
-        alert("Data berhasil dihapus");
-        getData();
-      });
+      axios
+        .delete(`http://localhost:8000/api/jenis-jangka-waktu/${id}`)
+        .then(() => {
+          alert("Data berhasil dihapus");
+          getData();
+        });
     }
   };
 
   return (
-    <div>
-      <h2>Daftar Jenis Jangka Waktu</h2>
-      <Link to="/JenisJangkaWaktu/tambah">➕ Tambah Baru</Link>
-      <ul>
-        {data.length === 0 ? (
-          <li>Belum ada data</li>
-        ) : (
-          data.map((item) => (
-            <li key={item.idJenisJangkaWaktu}>
-              <strong>{item.jenisJangkaWaktu}</strong> – {item.keterangan}
-              &nbsp;
-              <Link to={`/JenisJangkaWaktu/edit/${item.idJenisJangkaWaktu}`}>✏️ Edit</Link>
-              &nbsp;
-              <button onClick={() => handleDelete(item.idJenisJangkaWaktu)}>🗑️ Hapus</button>
-            </li>
-          ))
-        )}
-      </ul>
+    <div className="container mt-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4>Data Jenis Jangka Waktu</h4>
+        <Link to="/JenisJangkaWaktu/tambah" className="btn btn-primary">
+          ➕ Tambah Jenis
+        </Link>
+      </div>
+      {data.length === 0 ? (
+        <div className="alert alert-info">Belum ada data.</div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-bordered table-hover">
+            <thead className="table-dark">
+              <tr>
+                <th>No</th>
+                <th>Jenis Jangka Waktu</th>
+                <th>Keterangan</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={item.idJenisJangkaWaktu}>
+                  <td>{index + 1}</td>
+                  <td>{item.jenisJangkaWaktu}</td>
+                  <td>{item.keterangan}</td>
+                  <td>
+                    <Link
+                      to={`/JenisJangkaWaktu/edit/${item.idJenisJangkaWaktu}`}
+                      className="btn btn-sm btn-warning me-2"
+                    >
+                      ✏️ Edit
+                    </Link>
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleDelete(item.idJenisJangkaWaktu)}
+                    >
+                      🗑️ Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
