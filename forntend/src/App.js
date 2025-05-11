@@ -14,6 +14,9 @@ import JangkaWaktuSewaFormEdit from './FormEdit/JangkaWaktuSewaFormEdit';
 import LokasiObjekRetribusiList from './List/LokasiObjekRetribusiList';
 import LokasiObjekRetribusiFormAdd from './FormAdd/LokasiObjekRetribusiFormAdd';
 import LokasiObjekRetribusiFormEdit from './FormEdit/LokasiObjekRetribusiFormEdit';
+import JenisObjekRetribusiList from "./List/JenisObjekRetribusiList";
+import JenisObjekRetribusiFormAdd from "./FormAdd/JenisObjekRetribusiFormAdd";
+import JenisObjekRetribusiFormEdit from "./FormEdit/JenisObjekRetribusiFormEdit";
 
 function App() {
   return (
@@ -34,6 +37,9 @@ function App() {
         <Route path="/lokasiobjekretribusi" element={<LokasiObjekRetribusiList />} />
         <Route path="/lokasiobjekretribusi/add" element={<LokasiObjekRetribusiFormAdd />} />
         <Route path="/lokasiobjekretribusi/edit/:id" element={<LokasiObjekRetribusiFormEdit />} />
+        <Route path="/jenisobjekretribusi" element={<JenisObjekRetribusiList />} />
+        <Route path="/jenisobjekretribusi/create" element={<JenisObjekRetribusiFormAdd />} />
+        <Route path="/jenisobjekretribusi/edit/:id" element={<JenisObjekRetribusiFormEdit />} />
       </Routes>
     </Router>
   );

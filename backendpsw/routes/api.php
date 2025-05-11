@@ -7,7 +7,9 @@ use App\Http\Controllers\Api\JenisPermohonanController;
 use App\Http\Controllers\API\JenisJangkaWaktuController;
 use App\Http\Controllers\Api\JangkaWaktuSewaController;
 use App\Http\Controllers\Api\LokasiObjekRetribusiController;
+use App\Http\Controllers\Api\JenisObjekRetribusiController;
 
+Route::apiResource('jenis-objek-retribusi', JenisObjekRetribusiController::class);
 Route::apiResource('lokasi-objek-retribusi', LokasiObjekRetribusiController::class);
 Route::post('lokasi-objek-retribusi/{id}/restore', [LokasiObjekRetribusiController::class, 'restore']);
 Route::apiResource('jangka-waktu-sewa', JangkaWaktuSewaController::class);
