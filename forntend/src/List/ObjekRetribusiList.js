@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function ListObjekRetribusi({ onEdit }) {
+function ListObjekRetribusi() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      // Start loading
-      setLoading(true);
-      setError(null); // Clear any previous error
       const res = await axios.get('http://localhost:8000/api/objek-retribusi');
       setData(res.data.data);
     } catch (err) {
       console.error('Gagal mengambil data:', err);
-      setError('Gagal mengambil data');
-    } finally {
-      // Done loading
-      setLoading(false);
     }
   };
 
@@ -30,23 +23,18 @@ function ListObjekRetribusi({ onEdit }) {
     if (window.confirm('Yakin ingin menghapus data ini?')) {
       try {
         await axios.delete(`http://localhost:8000/api/objek-retribusi/${id}`);
-        fetchData(); // Reload data after delete
+        fetchData();
       } catch (err) {
         console.error('Gagal menghapus data:', err);
-        setError('Gagal menghapus data');
       }
     }
   };
 
-  if (loading) {
-    return <p>Loading data...</p>;
-  }
-
   return (
     <div>
       <h3>Daftar Objek Retribusi</h3>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <table border="1" cellPadding="8">
+      <button onClick={() => navigate('/objek-retribusi/tambah')}>+ Tambah</button>
+      <table border="1" cellPadding="8" style={{ marginTop: '10px' }}>
         <thead>
           <tr>
             <th>Kode</th>
@@ -64,7 +52,7 @@ function ListObjekRetribusi({ onEdit }) {
               <td>{item.noBangunan}</td>
               <td>{item.alamat}</td>
               <td>
-                <button onClick={() => onEdit(item.id)}>Edit</button>{' '}
+                <button onClick={() => navigate(`/objekretribusi/edit/${item.id}`)}>Edit</button>{' '}
                 <button onClick={() => handleDelete(item.id)}>Hapus</button>
               </td>
             </tr>

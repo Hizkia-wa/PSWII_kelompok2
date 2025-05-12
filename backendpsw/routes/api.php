@@ -11,7 +11,15 @@ use App\Http\Controllers\Api\JenisObjekRetribusiController;
 use App\Http\Controllers\Api\ObjekRetribusiController;
 use App\Http\Controllers\Api\JenisStatusController;
 use App\Http\Controllers\Api\StatusController;
+use App\Http\Controllers\Api\PeruntukanSewaController;
+use App\Http\Controllers\Api\WajibRetribusiController;
+use App\Http\Controllers\Api\TarifObjekRetribusiController;
+use App\Http\Controllers\Api\PermohonanSewaController;
 
+Route::apiResource('permohonan-sewa', PermohonanSewaController::class);
+Route::apiResource('tarif-objek-retribusi', TarifObjekRetribusiController::class);
+Route::apiResource('wajib-retribusi', WajibRetribusiController::class);
+Route::apiResource('peruntukan-sewa', PeruntukanSewaController::class);
 Route::apiResource('status', StatusController::class);
 Route::apiResource('jenis-status', JenisStatusController::class);
 Route::apiResource('objek-retribusi', ObjekRetribusiController::class);

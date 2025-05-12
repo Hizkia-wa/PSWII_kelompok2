@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 
-function StatusFormEdit({ id, onSuccess }) {
+function StatusFormEdit() {
+  const { id } = useParams(); // Ambil ID dari URL
+  const navigate = useNavigate();
   const [namaStatus, setNamaStatus] = useState('');
   const [keterangan, setKeterangan] = useState('');
 
@@ -14,10 +17,13 @@ function StatusFormEdit({ id, onSuccess }) {
         setKeterangan(data.keterangan || '');
       } catch (err) {
         console.error('Gagal mengambil detail status:', err);
+        alert('Status tidak ditemukan!');
+        navigate('/status'); // Redirect ke daftar status jika gagal
       }
     };
+
     if (id) fetchStatus();
-  }, [id]);
+  }, [id, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,32 +31,39 @@ function StatusFormEdit({ id, onSuccess }) {
       await axios.put(`http://localhost:8000/api/status/${id}`, {
         namaStatus,
         keterangan,
-        idJenisStatus: 1 // sesuaikan jika dinamis
+        idJenisStatus: 1 // Ganti jika kamu pakai pilihan dinamis
       });
       alert('Berhasil mengubah status!');
-      onSuccess();
+      navigate('/status');
     } catch (error) {
       console.error('Gagal mengedit status:', error);
+      alert('Gagal mengedit status!');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Edit Status</h3>
-      <input
-        type="text"
-        value={namaStatus}
-        onChange={(e) => setNamaStatus(e.target.value)}
-        required
-      />
-      <br />
-      <textarea
-        value={keterangan}
-        onChange={(e) => setKeterangan(e.target.value)}
-      />
-      <br />
-      <button type="submit">Update</button>
-    </form>
+    <div>
+      <h2>Edit Status</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Nama Status</label><br />
+          <input
+            type="text"
+            value={namaStatus}
+            onChange={(e) => setNamaStatus(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Keterangan</label><br />
+          <textarea
+            value={keterangan}
+            onChange={(e) => setKeterangan(e.target.value)}
+          />
+        </div>
+        <button type="submit">Update</button>
+      </form>
+    </div>
   );
 }
 

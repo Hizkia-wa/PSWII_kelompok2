@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function StatusList({ onEdit }) {
+function StatusList() {
   const [data, setData] = useState([]);
+  const navigate = useNavigate(); // tambahkan ini
 
   const fetchStatus = async () => {
     try {
@@ -31,7 +33,8 @@ function StatusList({ onEdit }) {
   return (
     <div>
       <h2>Daftar Status</h2>
-      <table border="1" cellPadding="8">
+      <button onClick={() => navigate('/status/tambah')}>+ Tambah</button>
+      <table border="1" cellPadding="8" style={{ marginTop: '10px' }}>
         <thead>
           <tr>
             <th>ID</th>
@@ -47,7 +50,7 @@ function StatusList({ onEdit }) {
               <td>{status.namaStatus}</td>
               <td>{status.keterangan}</td>
               <td>
-                <button onClick={() => onEdit(status.idStatus)}>Edit</button>
+                <button onClick={() => navigate(`/status/edit/${status.idStatus}`)}>Edit</button>{' '}
                 <button onClick={() => handleDelete(status.idStatus)}>Hapus</button>
               </td>
             </tr>
