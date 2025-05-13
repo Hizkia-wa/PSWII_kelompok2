@@ -34,7 +34,6 @@ export default function Sidebar() {
     });
   };
 
-
   const colors = {
     primary: '#0c3144', 
     secondary: '#072638', 
@@ -87,7 +86,8 @@ export default function Sidebar() {
     logo: {
       width: '40px',
       height: '40px',
-      borderRadius: '50%'
+      borderRadius: '50%',
+      objectFit: 'cover' // Ensures the image fits within the circular container
     },
     title: {
       fontSize: '28px',
@@ -292,27 +292,15 @@ export default function Sidebar() {
       <div style={styles.header}>
         <div style={styles.headerContent}>
           <div style={styles.logoContainer}>
-           
-            <div style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, #f3c496, #b67b31)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '18px',
-              fontWeight: 'bold',
-              color: '#5c3a11'
-            }}>
-              T
-            </div>
+            <img
+              src={`${process.env.PUBLIC_URL}/background.png`} 
+              alt="TobaLink Logo"
+              style={styles.logo}
+            />
           </div>
           <h1 style={styles.title}>TobaLink</h1>
         </div>
       </div>
-      
-
       
       {/* Admin Panel Label */}
       <div style={styles.sectionLabel}>
@@ -595,7 +583,7 @@ export default function Sidebar() {
           )}
         </div>
         
-        {/* Status */}
+     
         <div className="menu-item">
           <div 
             style={{
@@ -779,7 +767,6 @@ export default function Sidebar() {
                 '0 5px 10px rgba(185, 28, 28, 0.15)';
             }}
             onClick={(e) => {
-              // Tambahkan efek klik jika perlu
               console.log("Logout clicked");
             }}
           >
@@ -794,4 +781,4 @@ export default function Sidebar() {
       </div>
     </div>
   );
-};
+}
