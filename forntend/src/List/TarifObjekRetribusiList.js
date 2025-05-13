@@ -21,7 +21,7 @@ const TarifObjekRetribusiList = () => {
   return (
     <div>
       <h2>Daftar Tarif Objek Retribusi</h2>
-      <Link to="/tarif/add">+ Tambah Tarif</Link>
+      <Link to="/tarifobjekretribusi/add">+ Tambah Tarif</Link>
       <table border="1" cellPadding="5">
         <thead>
           <tr>

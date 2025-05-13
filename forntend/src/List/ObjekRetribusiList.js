@@ -33,7 +33,7 @@ function ListObjekRetribusi() {
   return (
     <div>
       <h3>Daftar Objek Retribusi</h3>
-      <button onClick={() => navigate('/objek-retribusi/tambah')}>+ Tambah</button>
+      <button onClick={() => navigate('/objekretribusi/tambah')}>+ Tambah</button>
       <table border="1" cellPadding="8" style={{ marginTop: '10px' }}>
         <thead>
           <tr>

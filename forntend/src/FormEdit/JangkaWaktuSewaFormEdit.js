@@ -16,7 +16,7 @@ const JangkaWaktuSewaFormEdit = () => {
   const [jenisList, setJenisList] = useState([]);
 
   useEffect(() => {
-    // Ambil data jangka waktu berdasarkan ID
+
     axios
       .get(`http://localhost:8000/api/jangka-waktu-sewa/${id}`)
       .then(res => {
