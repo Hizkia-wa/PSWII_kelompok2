@@ -21,7 +21,7 @@ const WajibRetribusiFormAdd = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/api/wajib-retribusi', form); // <- perbaikan URL di sini
+      await axios.post('http://localhost:8000/api/wajib-retribusi', form); 
       alert('Data berhasil ditambahkan.');
       onClose();
     } catch (err) {
