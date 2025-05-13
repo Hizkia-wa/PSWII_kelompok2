@@ -205,7 +205,7 @@ export default function Sidebar() {
       <div style={styles.header}>
         <div style={styles.headerContent}>
           <div style={styles.logoContainer}>
-            <img src="/api/placeholder/40/40" alt="TobaLink Logo" style={styles.logo} />
+           <img src="/background.png" alt="TobaLink Logo" style={styles.logo} />
           </div>
           <h1 style={styles.title}>TobaLink</h1>
         </div>
