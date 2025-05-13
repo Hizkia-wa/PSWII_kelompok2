@@ -16,7 +16,7 @@ class JenisPermohonanController extends Controller
         return JenisPermohonanResource::collection($jenisPermohonan);
     }
 
-    // Menambah jenis permohonan baru
+  
     public function store(Request $request)
     {
         $request->validate([

@@ -43,24 +43,7 @@ const LokasiObjekRetribusiList = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        {/* Sidebar */}
-        <div className="col-md-2 bg-dark text-white min-vh-100 p-3">
-          <h4 className="text-center">TobaLink</h4>
-          <hr />
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <Link to="/" className="nav-link text-white">
-                Dashboard
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/lokasiobjekretribusi" className="nav-link text-white fw-bold">
-                Lokasi Objek Retribusi
-              </Link>
-            </li>
-            {/* Tambah menu lainnya di sini */}
-          </ul>
-        </div>
+      
 
         {/* Konten Utama */}
         <div className="col-md-10 p-4">

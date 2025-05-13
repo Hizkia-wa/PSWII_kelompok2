@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./pages/sidebar";
 import UserList from "./List/UserList";
 import UserFormAdd from "./FormAdd/UserFormAdd";
 import UserFormEdit from "./FormEdit/UserFormEdit";
@@ -39,50 +40,63 @@ import PermohonanSewaList from './List/PermohonanSewaList';
 import PermohonanSewaFormAdd from './FormAdd/PermohonanSewaFormAdd';
 import PermohonanSewaFormEdit from './FormEdit/PermohonanSewaFormEdit';
 
+function Layout({ children }) {
+  return (
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+      <div style={{ flex: 1, padding: "20px" }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/user" element={<UserList />} />
-        <Route path="/user/tambah" element={<UserFormAdd />} />
-        <Route path="/user/edit/:id" element={<UserFormEdit />} />
-        <Route path="/jenispermohonan" element={<JenisPermohonanList />} />
-        <Route path="/jenispermohonan/tambah" element={<JenisPermohonanAdd />} />
-        <Route path="/jenispermohonan/edit/:id" element={<JenisPermohonanEdit />} />
-        <Route path="/jenisjangkawaktu" element={<JenisJangkaWaktuList />} />
-        <Route path="/jenisjangkawaktu/tambah" element={<JenisJangkaWaktuFormAdd />} />
-        <Route path="/jenisjangkawaktu/edit/:id" element={<JenisJangkaWaktuFormEdit />} />
-        <Route path="/jangkawaktusewa" element={<JangkaWaktuSewaList />} />
-        <Route path="/jangkawaktusewa/tambah" element={<JangkaWaktuSewaFormAdd />} />
-        <Route path="/jangkawaktusewa/edit/:id" element={<JangkaWaktuSewaFormEdit />} />
-        <Route path="/lokasiobjekretribusi" element={<LokasiObjekRetribusiList />} />
-        <Route path="/lokasiobjekretribusi/add" element={<LokasiObjekRetribusiFormAdd />} />
-        <Route path="/lokasiobjekretribusi/edit/:id" element={<LokasiObjekRetribusiFormEdit />} />
-        <Route path="/jenisobjekretribusi" element={<JenisObjekRetribusiList />} />
-        <Route path="/jenisobjekretribusi/create" element={<JenisObjekRetribusiFormAdd />} />
-        <Route path="/jenisobjekretribusi/edit/:id" element={<JenisObjekRetribusiFormEdit />} />
-        <Route path="/objekretribusi" element={<ObjekRetribusiList />} />
-        <Route path="/objekretribusi/create" element={<ObjekRetribusiFormAdd />} />
-        <Route path="/objekretribusi/edit/:id" element={<ObjekRetribusiFormEdit />} />
-        <Route path="/jenisstatus" element={<JenisStatusList />} />
-        <Route path="/jenisstatus/add" element={<JenisStatusFormAdd />} />
-        <Route path="/jenisstatus/edit/:id" element={<JenisStatusFormEdit />} />
-        <Route path="/status" element={<StatusList />} />
-        <Route path="/status/tambah" element={<StatusFormAdd />} />
-        <Route path="/status/edit/:id" element={<StatusFormEdit />} />
-        <Route path="/peruntukansewa" element={<PeruntukanSewaList />} />
-        <Route path="/peruntukansewa/add" element={<PeruntukanSewaFormAdd />} />
-        <Route path="/peruntukansewa/edit/:id" element={<PeruntukanSewaFormEdit />} />
-        <Route path="/wajibretribusi" element={<WajibRetribusiList />} />
-        <Route path="/wajibretribusi/tambah" element={<WajibRetribusiAdd />} />
-        <Route path="/wajibretribusi/edit/:id" element={<WajibRetribusiEdit />} />
-        <Route path="/tarifobjekretribusi" element={<TarifObjekRetribusiList />} />  {/* Menampilkan Daftar Tarif */}
-        <Route path="/tarifobjekretribusi/add" element={<TarifObjekRetribusiFormAdd />} />  {/* Menampilkan Form Tambah Tarif */}
-        <Route path="/tarifobjekretribusi/edit/:id" element={<TarifObjekRetribusiFormEdit />} />
-        <Route path="/permohonansewa" element={<PermohonanSewaList />} />
-        <Route path="/permohonansewa/add" element={<PermohonanSewaFormAdd />} />
-        <Route path="/permohonansewa/edit/:id" element={<PermohonanSewaFormEdit />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/user" element={<UserList />} />
+          <Route path="/user/tambah" element={<UserFormAdd />} />
+          <Route path="/user/edit/:id" element={<UserFormEdit />} />
+          <Route path="/jenispermohonan" element={<JenisPermohonanList />} />
+          <Route path="/jenispermohonan/tambah" element={<JenisPermohonanAdd />} />
+          <Route path="/jenispermohonan/edit/:id" element={<JenisPermohonanEdit />} />
+          <Route path="/jenisjangkawaktu" element={<JenisJangkaWaktuList />} />
+          <Route path="/jenisjangkawaktu/tambah" element={<JenisJangkaWaktuFormAdd />} />
+          <Route path="/jenisjangkawaktu/edit/:id" element={<JenisJangkaWaktuFormEdit />} />
+          <Route path="/jangkawaktusewa" element={<JangkaWaktuSewaList />} />
+          <Route path="/jangkawaktusewa/tambah" element={<JangkaWaktuSewaFormAdd />} />
+          <Route path="/jangkawaktusewa/edit/:id" element={<JangkaWaktuSewaFormEdit />} />
+          <Route path="/lokasiobjekretribusi" element={<LokasiObjekRetribusiList />} />
+          <Route path="/lokasiobjekretribusi/add" element={<LokasiObjekRetribusiFormAdd />} />
+          <Route path="/lokasiobjekretribusi/edit/:id" element={<LokasiObjekRetribusiFormEdit />} />
+          <Route path="/jenisobjekretribusi" element={<JenisObjekRetribusiList />} />
+          <Route path="/jenisobjekretribusi/create" element={<JenisObjekRetribusiFormAdd />} />
+          <Route path="/jenisobjekretribusi/edit/:id" element={<JenisObjekRetribusiFormEdit />} />
+          <Route path="/objekretribusi" element={<ObjekRetribusiList />} />
+          <Route path="/objekretribusi/create" element={<ObjekRetribusiFormAdd />} />
+          <Route path="/objekretribusi/edit/:id" element={<ObjekRetribusiFormEdit />} />
+          <Route path="/jenisstatus" element={<JenisStatusList />} />
+          <Route path="/jenisstatus/add" element={<JenisStatusFormAdd />} />
+          <Route path="/jenisstatus/edit/:id" element={<JenisStatusFormEdit />} />
+          <Route path="/status" element={<StatusList />} />
+          <Route path="/status/tambah" element={<StatusFormAdd />} />
+          <Route path="/status/edit/:id" element={<StatusFormEdit />} />
+          <Route path="/peruntukansewa" element={<PeruntukanSewaList />} />
+          <Route path="/peruntukansewa/add" element={<PeruntukanSewaFormAdd />} />
+          <Route path="/peruntukansewa/edit/:id" element={<PeruntukanSewaFormEdit />} />
+          <Route path="/wajibretribusi" element={<WajibRetribusiList />} />
+          <Route path="/wajibretribusi/tambah" element={<WajibRetribusiAdd />} />
+          <Route path="/wajibretribusi/edit/:id" element={<WajibRetribusiEdit />} />
+          <Route path="/tarifobjekretribusi" element={<TarifObjekRetribusiList />} />
+          <Route path="/tarifobjekretribusi/add" element={<TarifObjekRetribusiFormAdd />} />
+          <Route path="/tarifobjekretribusi/edit/:id" element={<TarifObjekRetribusiFormEdit />} />
+          <Route path="/permohonansewa" element={<PermohonanSewaList />} />
+          <Route path="/permohonansewa/add" element={<PermohonanSewaFormAdd />} />
+          <Route path="/permohonansewa/edit/:id" element={<PermohonanSewaFormEdit />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 }

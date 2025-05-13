@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const API = "http://localhost:8000/api/jenis-permohonan";
 
@@ -37,84 +37,246 @@ const JenisPermohonanList = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        {/* Sidebar */}
-        <div className="col-md-2 bg-dark text-white min-vh-100 p-3">
-          <h4 className="text-center">TobaLink</h4>
-          <hr />
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <Link to="/" className="nav-link text-white">
-                Dashboard
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                to="/JenisPermohonan"
-                className="nav-link text-white fw-bold"
-              >
-                Jenis Permohonan
-              </Link>
-            </li>
-            {/* Tambah menu lain di sini */}
-          </ul>
-        </div>
-
-        {/* Konten Utama */}
-        <div className="col-md-10 p-4">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h3>Data Jenis Permohonan</h3>
-            <Link to="JenisPermohonan/create" className="btn btn-primary">
-              ➕ Tambah Data
+    <div className="app-container">
+   
+      <div className="content-container">
+        <div className="data-list-container">
+          <div className="header-container">
+            <h2 className="page-title">Data Jenis Permohonan</h2>
+            <Link to="/jenispermohonan/tambah" className="add-button">
+              + Tambah Data
             </Link>
           </div>
-
-          {loading ? (
-            <p>Memuat data...</p>
-          ) : posts.length === 0 ? (
-            <p>Belum ada data.</p>
-          ) : (
-            <table className="table table-bordered">
-              <thead className="table-light">
-                <tr>
-                  <th>#</th>
-                  <th>Jenis Permohonan</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {posts.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td>{item.jenisPermohonan}</td>
-                    <td>
-                      <Link
-                        to={`/show/${item.id}`}
-                        className="btn btn-info btn-sm me-2"
-                      >
-                        👁️
-                      </Link>
-                      <Link
-                        to={`JenisPermohonan/edit/${item.id}`}
-                        className="btn btn-warning btn-sm me-2"
-                      >
-                        ✏️
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="btn btn-danger btn-sm"
-                      >
-                        🗑️
-                      </button>
-                    </td>
+          
+          <div className="table-container">
+            {loading ? (
+              <div className="loading-indicator">Memuat data...</div>
+            ) : posts.length === 0 ? (
+              <div className="empty-state">Belum ada data jenis permohonan.</div>
+            ) : (
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th width="60">#</th>
+                    <th>Jenis Permohonan</th>
+                    <th width="180">Aksi</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                </thead>
+                <tbody>
+                  {posts.map((item, index) => (
+                    <tr key={item.id}>
+                      <td className="text-center">{index + 1}</td>
+                      <td>{item.jenisPermohonan}</td>
+                      <td className="action-buttons">
+                        <Link
+                          to={`/show/${item.id}`}
+                          className="view-button"
+                          title="Lihat Detail"
+                        >
+                          <span className="action-icon">👁️</span>
+                        </Link>
+                        <Link
+                          to={`/JenisPermohonan/edit/${item.id}`}
+                          className="edit-button"
+                          title="Edit Data"
+                        >
+                          <span className="action-icon">✏️</span>
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="delete-button"
+                          title="Hapus Data"
+                        >
+                          <span className="action-icon">🗑️</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        /* Global styles */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .app-container {
+          display: flex;
+          min-height: 100vh;
+          background-color: #f5f7fa;
+        }
+
+        /* Main content area */
+        .content-container {
+          flex: 1;
+          padding: 20px;
+          overflow-y: auto;
+        }
+
+        /* Data list container */
+        .data-list-container {
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+          overflow: hidden;
+        }
+
+        /* Header with title and add button */
+        .header-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px 24px;
+          border-bottom: 1px solid #eaedf3;
+        }
+
+        .page-title {
+          color: #2d3748;
+          font-size: 24px;
+          font-weight: 600;
+        }
+
+        .add-button {
+          display: inline-block;
+          background-color: #1e40af; /* Deep blue to match sidebar */
+          color: white;
+          padding: 10px 16px;
+          border-radius: 4px;
+          text-decoration: none;
+          font-weight: 500;
+          transition: background-color 0.2s;
+        }
+
+        .add-button:hover {
+          background-color: #2563eb;
+        }
+
+        /* Table container */
+        .table-container {
+          padding: 0 0 20px 0;
+          overflow-x: auto;
+        }
+
+        /* Loading and empty states */
+        .loading-indicator,
+        .empty-state {
+          padding: 40px;
+          text-align: center;
+          color: #6b7280;
+          font-size: 16px;
+        }
+
+        /* Table styles */
+        .data-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .data-table th {
+          background-color: #f8fafc;
+          padding: 16px 24px;
+          text-align: left;
+          font-weight: 600;
+          color: #64748b;
+          font-size: 14px;
+          white-space: nowrap;
+          border-bottom: 1px solid #eaedf3;
+        }
+
+        .data-table td {
+          padding: 16px 24px;
+          border-bottom: 1px solid #eaedf3;
+          color: #4a5568;
+        }
+
+        .data-table tr:hover {
+          background-color: #f8fafc;
+        }
+
+        .text-center {
+          text-align: center;
+        }
+
+        /* Action buttons */
+        .action-buttons {
+          display: flex;
+          gap: 8px;
+        }
+
+        .view-button,
+        .edit-button,
+        .delete-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 4px;
+          transition: background-color 0.2s;
+        }
+
+        .view-button {
+          background-color: #0ea5e9;
+          color: white;
+          text-decoration: none;
+        }
+
+        .view-button:hover {
+          background-color: #0284c7;
+        }
+
+        .edit-button {
+          background-color: #f59e0b;
+          color: white;
+          text-decoration: none;
+        }
+
+        .edit-button:hover {
+          background-color: #d97706;
+        }
+
+        .delete-button {
+          background-color: #ef4444;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+
+        .delete-button:hover {
+          background-color: #dc2626;
+        }
+
+        .action-icon {
+          font-size: 16px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .header-container {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+          }
+          
+          .add-button {
+            width: 100%;
+            text-align: center;
+          }
+          
+          .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+          }
+        }
+      `}</style>
     </div>
   );
 };
