@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ChevronRight, 
@@ -26,6 +26,42 @@ export default function Sidebar() {
     peruntukan: false,
     wajibRetribusi: false
   });
+  
+  // State to track content height
+  const [contentHeight, setContentHeight] = useState(0);
+
+  // Effect to calculate and update content height
+  useEffect(() => {
+    const updateContentHeight = () => {
+      const mainContent = document.getElementById('main-content');
+      if (mainContent) {
+        setContentHeight(mainContent.scrollHeight);
+      } else {
+        // If main content not found, use document height as fallback
+        setContentHeight(Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ));
+      }
+    };
+
+    // Initial calculation
+    updateContentHeight();
+    
+    // Set up event listener for window resize
+    window.addEventListener('resize', updateContentHeight);
+    
+    // Set up a mutation observer to detect content changes
+    const observer = new MutationObserver(updateContentHeight);
+    const targetNode = document.body;
+    observer.observe(targetNode, { childList: true, subtree: true });
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('resize', updateContentHeight);
+      observer.disconnect();
+    };
+  }, []);
 
   const toggleMenu = (menu) => {
     setExpandedMenus({
@@ -51,7 +87,8 @@ export default function Sidebar() {
   // CSS Styles
   const styles = {
     sidebar: {
-      height: '100vh',
+      minHeight: '100vh', // Minimum height
+      height: `${Math.max(contentHeight, window.innerHeight)}px`, // Dynamic height
       width: '250px',
       background: `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
       color: colors.textPrimary,
@@ -59,7 +96,8 @@ export default function Sidebar() {
       flexDirection: 'column',
       boxShadow: `0 10px 25px ${colors.shadow}`,
       fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
-      position: 'relative',
+      position: 'sticky', // Changed from relative to sticky
+      top: 0, // Stick to the top
       zIndex: 10,
       borderRight: `1px solid ${colors.border}`
     },
@@ -175,7 +213,6 @@ export default function Sidebar() {
       alignItems: 'center'
     },
     logoutSection: {
-      marginTop: 'auto',
       borderTop: `1px solid ${colors.border}`,
       padding: '10px 0'
     },
@@ -262,7 +299,7 @@ export default function Sidebar() {
   };
 
   // Call once on component mount
-  useState(() => {
+  useEffect(() => {
     addRippleKeyframes();
   }, []);
 
