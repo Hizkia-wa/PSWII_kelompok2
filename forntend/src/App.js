@@ -41,6 +41,10 @@ import PermohonanSewaFormAdd from './FormAdd/PermohonanSewaFormAdd';
 import PermohonanSewaFormEdit from './FormEdit/PermohonanSewaFormEdit';
 import LoginPage from './pages/LoginPage';
 import JenisPermohonanFormDetail from "./FormDetail/JenisPermohonanFormDetail";
+import DashboardList from './List/Dashboard';
+
+
+
 
 function Layout({ children }) {
   return (
@@ -64,7 +68,7 @@ function AppRoutes() {
   return (
     <Layout>
       <Routes>
-        <Route path="/dashboard" element={<h2>Selamat datang di Dashboard!</h2>} />
+         <Route path="/dashboard" element={<DashboardList />} />
         <Route path="/user" element={<UserList />} />
         <Route path="/user/tambah" element={<UserFormAdd />} />
         <Route path="/user/edit/:id" element={<UserFormEdit />} />

@@ -1,273 +1,258 @@
 import { useState, useEffect } from 'react';
 
-export default function TapatupaContent() {
-  // Styles dengan tampilan yang lebih menarik (tetap background putih)
+export default function AdminDashboard() {
+  const [visible, setVisible] = useState(false);
+  const [hoverHeading, setHoverHeading] = useState(false);
+  const [hoverText, setHoverText] = useState(false);
+  const [textPosition, setTextPosition] = useState(0);
+  
+  useEffect(() => {
+    // Trigger animation after component mount
+    const timer = setTimeout(() => {
+      setVisible(true);
+    }, 300);
+    
+    // Create text animation effect
+    const animationInterval = setInterval(() => {
+      setTextPosition(prev => (prev + 1) % 100);
+    }, 2000);
+    
+    return () => {
+      clearTimeout(timer);
+      clearInterval(animationInterval);
+    };
+  }, []);
+  
+  // CSS styles with keyframes defined as an object
+  const keyframes = {
+    gradientMove: {
+      '0%': { backgroundPosition: '0% 50%' },
+      '50%': { backgroundPosition: '100% 50%' },
+      '100%': { backgroundPosition: '0% 50%' }
+    },
+    float: {
+      '0%': { transform: 'translateY(0px)' },
+      '50%': { transform: 'translateY(-10px)' },
+      '100%': { transform: 'translateY(0px)' }
+    },
+    textShimmer: {
+      '0%': { backgroundPosition: '-200% 50%' },
+      '100%': { backgroundPosition: '200% 50%' }
+    }
+  };
+  
+  // Generate CSS animation string for keyframes
+  const createCSSAnimation = (name, duration, timingFunction, delay = '0s', iteration = 'infinite', direction = 'alternate') => {
+    return `${name} ${duration} ${timingFunction} ${delay} ${iteration} ${direction}`;
+  };
+  
+  // CSS styles
   const styles = {
-    container: {
+    dashboardContainer: {
       minHeight: '100vh',
       background: 'white',
-      color: '#333',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
       fontFamily: '"Inter", "Segoe UI", Roboto, sans-serif',
-      padding: '40px 20px',
-      maxWidth: '1280px',
-      margin: '0 auto'
+      position: 'relative',
+      overflow: 'hidden'
     },
-    headerSection: {
-      textAlign: 'center',
-      marginBottom: '40px'
+    header: {
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      width: '100%',
+      padding: '20px 40px',
+      display: 'flex',
+      alignItems: 'center'
     },
     logo: {
-      width: '70px',
-      height: '70px',
-      borderRadius: '50%',
-      background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
+      width: '50px',
+      height: '50px',
+      borderRadius: '12px',
+      background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       color: 'white',
-      fontSize: '2rem',
+      fontSize: '1.5rem',
       fontWeight: 'bold',
-      margin: '0 auto 16px',
-      boxShadow: '0 10px 15px -3px rgba(236, 72, 153, 0.2)'
+      boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.3)',
+      animation: 'float 3s ease-in-out infinite'
     },
-    heading: {
-      fontSize: '2.5rem',
-      fontWeight: '700',
-      color: '#111827',
-      marginBottom: '10px'
-    },
-    subHeading: {
-      fontSize: '1.1rem',
-      color: '#6b7280',
-      maxWidth: '600px',
-      margin: '0 auto'
-    },
-    aboutSection: {
+    welcomeCard: {
       background: 'white',
       borderRadius: '24px',
-      overflow: 'hidden',
+      padding: '40px 50px',
       boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)',
       border: '1px solid #f3f4f6',
-      marginBottom: '60px'
+      maxWidth: '600px',
+      width: '100%',
+      textAlign: 'center',
+      transform: visible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.98)',
+      opacity: visible ? 1 : 0,
+      transition: 'all 0.7s cubic-bezier(0.17, 0.55, 0.55, 1)'
     },
-    aboutHeader: {
-      padding: '28px 36px',
-      borderBottom: '1px solid #f3f4f6',
-      background: 'linear-gradient(to right, #fafafa, white)',
-      display: 'flex',
-      alignItems: 'center'
-    },
-    headerDecoration: {
-      width: '6px',
-      height: '32px',
-      background: 'linear-gradient(to bottom, #ec4899, #8b5cf6)',
-      borderRadius: '12px',
-      marginRight: '16px'
-    },
-    aboutTitle: {
-      fontSize: '1.8rem',
+    welcomeHeading: {
+      fontSize: '2.4rem',
       fontWeight: '700',
-      margin: 0,
-      color: '#111827'
+      margin: '0 0 16px 0',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(20px)',
+      transition: 'all 0.7s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s',
+      backgroundImage: hoverHeading 
+        ? 'linear-gradient(90deg, #FF5757, #8C52FF, #5CE1E6, #FFD166, #FF5757)'
+        : 'linear-gradient(90deg, #111827, #2563EB, #111827)',
+      backgroundSize: '200% auto',
+      backgroundClip: 'text',
+      textFillColor: 'transparent',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      animation: createCSSAnimation('textShimmer', '3s', 'linear'),
+      cursor: 'pointer'
     },
-    aboutBody: {
-      padding: '36px'
+    welcomeText: {
+      fontSize: '1.2rem',
+      lineHeight: '1.6',
+      margin: '0',
+      opacity: visible ? 1 : 0,
+      transform: `translateY(${textPosition % 10 === 0 ? '0' : textPosition % 5 === 0 ? '-5px' : '0'})`,
+      transition: 'transform 0.5s ease-in-out, background-position 0.5s ease',
+      backgroundImage: hoverText 
+        ? 'linear-gradient(90deg, #FF5757, #8C52FF, #5CE1E6, #FFD166, #FF5757)'
+        : 'linear-gradient(90deg, #6b7280, #8b5cf6, #6b7280)',
+      backgroundSize: '200% auto',
+      backgroundClip: 'text',
+      textFillColor: 'transparent',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      animation: createCSSAnimation('textShimmer', '5s', 'linear'),
+      cursor: 'pointer'
     },
-    aboutText: {
-      color: '#4b5563',
-      marginBottom: '40px',
-      lineHeight: '1.8',
-      fontSize: '1.1rem',
-      maxWidth: '800px'
+    iconContainer: {
+      marginBottom: '20px',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0) rotate(0)' : 'translateY(15px) rotate(-10deg)',
+      transition: 'all 0.7s cubic-bezier(0.17, 0.55, 0.55, 1) 0.1s',
+      animation: 'float 3s ease-in-out infinite'
     },
-    featureGrid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-      gap: '30px'
+    icon: {
+      fontSize: '3.5rem'
     },
-    featureItem: {
-      background: 'white',
-      borderRadius: '16px',
-      padding: '30px',
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.02)',
-      border: '1px solid #f3f4f6',
-      transition: 'all 0.3s ease'
+    decorationBox: {
+      position: 'absolute',
+      borderRadius: '24px',
+      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)',
+      transform: 'rotate(-15deg)',
+      zIndex: '0',
+      animation: 'gradientMove 15s ease infinite'
     },
-    featureItemHover: {
-      ':hover': {
-        transform: 'translateY(-5px)',
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)'
-      }
+    decorationBox1: {
+      width: '300px',
+      height: '300px',
+      top: '-50px',
+      right: '-100px',
+      background: 'linear-gradient(135deg, rgba(255, 87, 87, 0.07), rgba(140, 82, 255, 0.07), rgba(92, 225, 230, 0.07))',
+      backgroundSize: '300% 300%',
+      animation: 'gradientMove 15s ease infinite'
     },
-    featureItem1: {
-      borderTop: '4px solid #ec4899'
+    decorationBox2: {
+      width: '200px',
+      height: '200px',
+      bottom: '100px',
+      left: '-50px',
+      background: 'linear-gradient(135deg, rgba(140, 82, 255, 0.05), rgba(92, 225, 230, 0.05), rgba(255, 209, 102, 0.05))',
+      backgroundSize: '300% 300%',
+      animation: 'gradientMove 10s ease infinite reverse'
     },
-    featureItem2: {
-      borderTop: '4px solid #8b5cf6'
+    decorationCircle: {
+      position: 'absolute',
+      borderRadius: '50%',
+      background: 'linear-gradient(135deg, rgba(255, 87, 87, 0.08), rgba(92, 225, 230, 0.08), rgba(255, 209, 102, 0.08))',
+      backgroundSize: '300% 300%',
+      width: '150px',
+      height: '150px',
+      bottom: '-50px',
+      right: '15%',
+      animation: 'gradientMove 12s ease infinite'
     },
-    featureItem3: {
-      borderTop: '4px solid #f59e0b'
-    },
-    featureItem4: {
-      borderTop: '4px solid #ef4444'
-    },
-    featureIconContainer: {
-      width: '60px',
-      height: '60px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '16px',
-      marginBottom: '24px',
-      transition: 'all 0.3s ease'
-    },
-    iconContainer1: {
-      background: 'rgba(236, 72, 153, 0.1)'
-    },
-    iconContainer2: {
-      background: 'rgba(139, 92, 246, 0.1)'
-    },
-    iconContainer3: {
-      background: 'rgba(245, 158, 11, 0.1)'
-    },
-    iconContainer4: {
-      background: 'rgba(239, 68, 68, 0.1)'
-    },
-    featureIcon: {
-      fontSize: '2rem'
-    },
-    featureTitle: {
-      fontSize: '1.3rem',
-      fontWeight: '600',
-      marginBottom: '12px',
-      color: '#111827'
-    },
-    featureText: {
-      color: '#6b7280',
-      lineHeight: '1.7',
-      margin: 0
+    '@keyframes gradientMove': keyframes.gradientMove,
+    '@keyframes float': keyframes.float,
+    '@keyframes textShimmer': keyframes.textShimmer,
+    style: {
+      animationName: 'gradientMove, float, textShimmer',
     }
   };
 
-  // Function to generate hover effects since inline styles don't support :hover
-  const [hoveredFeature, setHoveredFeature] = useState(null);
+  // CSS style rules to be injected as a style tag
+  const cssRules = `
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes textShimmer {
+      0% { background-position: -200% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    
+    .logo-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .decoration-animation {
+      animation: gradientMove 15s ease infinite;
+    }
+    
+    .text-shimmer {
+      animation: textShimmer 3s linear infinite;
+    }
+  `;
 
   return (
-    <div style={styles.container}>
-      {/* Header with Logo */}
-      <div style={styles.headerSection}>
-        <div style={styles.logo}>T</div>
-        <h1 style={styles.heading}>Tapatupa</h1>
-        <p style={styles.subHeading}>Platform pengelolaan sewa modern untuk pengalaman yang lebih terorganisir</p>
-      </div>
+    <div style={styles.dashboardContainer}>
+      {/* Inject CSS animations */}
+      <style dangerouslySetInnerHTML={{__html: cssRules}} />
       
-      {/* About Tapatupa */}
-      <div style={styles.aboutSection}>
-        <div style={styles.aboutHeader}>
-          <div style={styles.headerDecoration}></div>
-          <h2 style={styles.aboutTitle}>Tentang Tapatupa</h2>
+      {/* Background Decorations */}
+      <div style={{...styles.decorationBox, ...styles.decorationBox1}} className="decoration-animation"></div>
+      <div style={{...styles.decorationBox, ...styles.decorationBox2}} className="decoration-animation"></div>
+      <div style={styles.decorationCircle} className="decoration-animation"></div>
+      
+    
+      
+      {/* Welcome Card */}
+      <div style={styles.welcomeCard}>
+        <div style={styles.iconContainer}>
+          <span style={styles.icon}>👋</span>
         </div>
-        <div style={styles.aboutBody}>
-          <p style={styles.aboutText}>
-            Tapatupa adalah platform pengelolaan sewa yang membantu menyederhanakan proses penyewaan properti.
-            Kami menyediakan solusi untuk mengelola penyewa, permohonan sewa, jangka waktu, dan retribusi dengan
-            antarmuka yang ramah pengguna. Tapatupa hadir untuk memastikan pengelolaan sewa Anda berjalan lancar dan
-            terorganisir.
-          </p>
-          
-          <div style={styles.featureGrid}>
-            {/* Feature 1 */}
-            <div 
-              style={{
-                ...styles.featureItem, 
-                ...styles.featureItem1,
-                boxShadow: hoveredFeature === 1 ? '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)' : '0 4px 6px rgba(0, 0, 0, 0.02)',
-                transform: hoveredFeature === 1 ? 'translateY(-5px)' : 'translateY(0)'
-              }}
-              onMouseEnter={() => setHoveredFeature(1)} 
-              onMouseLeave={() => setHoveredFeature(null)}
-            >
-              <div style={{
-                ...styles.featureIconContainer, 
-                ...styles.iconContainer1,
-                background: hoveredFeature === 1 ? 'rgba(236, 72, 153, 0.15)' : 'rgba(236, 72, 153, 0.1)'
-              }}>
-                <span style={styles.featureIcon}>👥</span>
-              </div>
-              <h3 style={styles.featureTitle}>Manajemen Pengguna</h3>
-              <p style={styles.featureText}>Kelola data pengguna dan penyewa dengan mudah dan intuitif</p>
-            </div>
-            
-            {/* Feature 2 */}
-            <div 
-              style={{
-                ...styles.featureItem, 
-                ...styles.featureItem2,
-                boxShadow: hoveredFeature === 2 ? '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)' : '0 4px 6px rgba(0, 0, 0, 0.02)',
-                transform: hoveredFeature === 2 ? 'translateY(-5px)' : 'translateY(0)'
-              }}
-              onMouseEnter={() => setHoveredFeature(2)} 
-              onMouseLeave={() => setHoveredFeature(null)}
-            >
-              <div style={{
-                ...styles.featureIconContainer, 
-                ...styles.iconContainer2,
-                background: hoveredFeature === 2 ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)'
-              }}>
-                <span style={styles.featureIcon}>📝</span>
-              </div>
-              <h3 style={styles.featureTitle}>Permohonan Sewa</h3>
-              <p style={styles.featureText}>Proses permohonan dengan cepat dan tanpa kerumitan</p>
-            </div>
-            
-            {/* Feature 3 */}
-            <div 
-              style={{
-                ...styles.featureItem, 
-                ...styles.featureItem3,
-                boxShadow: hoveredFeature === 3 ? '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)' : '0 4px 6px rgba(0, 0, 0, 0.02)',
-                transform: hoveredFeature === 3 ? 'translateY(-5px)' : 'translateY(0)'
-              }}
-              onMouseEnter={() => setHoveredFeature(3)} 
-              onMouseLeave={() => setHoveredFeature(null)}
-            >
-              <div style={{
-                ...styles.featureIconContainer, 
-                ...styles.iconContainer3,
-                background: hoveredFeature === 3 ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.1)'
-              }}>
-                <span style={styles.featureIcon}>⏱️</span>
-              </div>
-              <h3 style={styles.featureTitle}>Jangka Waktu</h3>
-              <p style={styles.featureText}>Atur periode sewa dengan sistem yang fleksibel</p>
-            </div>
-            
-            {/* Feature 4 */}
-            <div 
-              style={{
-                ...styles.featureItem, 
-                ...styles.featureItem4,
-                boxShadow: hoveredFeature === 4 ? '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)' : '0 4px 6px rgba(0, 0, 0, 0.02)',
-                transform: hoveredFeature === 4 ? 'translateY(-5px)' : 'translateY(0)'
-              }}
-              onMouseEnter={() => setHoveredFeature(4)} 
-              onMouseLeave={() => setHoveredFeature(null)}
-            >
-              <div style={{
-                ...styles.featureIconContainer, 
-                ...styles.iconContainer4,
-                background: hoveredFeature === 4 ? 'rgba(239, 68, 68, 0.15)' : 'rgba(239, 68, 68, 0.1)'
-              }}>
-                <span style={styles.featureIcon}>💰</span>
-              </div>
-              <h3 style={styles.featureTitle}>Retribusi</h3>
-              <p style={styles.featureText}>Pantau dan kelola pembayaran secara terstruktur</p>
-            </div>
-          </div>
-        </div>
+        <h1 
+          style={styles.welcomeHeading} 
+          className="text-shimmer"
+          onMouseEnter={() => setHoverHeading(true)}
+          onMouseLeave={() => setHoverHeading(false)}
+        >
+          Selamat Datang, Admin!
+        </h1>
+        <p 
+          style={styles.welcomeText}
+          className="text-shimmer"
+          onMouseEnter={() => setHoverText(true)}
+          onMouseLeave={() => setHoverText(false)}
+        >
+          Semoga harimu menyenangkan 
+        </p>
       </div>
     </div>
   );
 }
-
-

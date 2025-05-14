@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -17,7 +18,14 @@ const LoginPage = () => {
         password
       });
       localStorage.setItem('token', res.data.token);
-      navigate('/dashboard');
+      
+      // Tampilkan notifikasi sebelum navigasi
+      setShowNotification(true);
+      
+      // Setelah 2 detik, navigasi ke dashboard
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
     } catch (err) {
       setError('Email atau password salah');
     }
@@ -39,6 +47,7 @@ const LoginPage = () => {
             --gray: #a0a0a0;
             --dark-gray: #505050;
             --shadow: rgba(0, 0, 0, 0.1);
+            --success: #4CAF50;
           }
 
           * {
@@ -239,6 +248,128 @@ const LoginPage = () => {
             left: 30px;
             opacity: 0.4;
           }
+          
+          /* Notification styling */
+          .notification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+          }
+          
+          .notification {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 360px;
+            padding: 30px;
+            text-align: center;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--success));
+          }
+          
+          .notification-icon {
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+          }
+          
+          .notification h3 {
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 18px;
+          }
+          
+          .notification p {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 20px;
+          }
+          
+          .loading-bar {
+            width: 100%;
+            height: 4px;
+            background-color: var(--light-gray);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+          }
+          
+          .loading-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--primary), var(--success));
+            animation: loadingProgress 2s linear forwards;
+          }
+          
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          
+          @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+          }
+          
+          @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+          }
+          
+          @keyframes loadingProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+          }
+          
+          .checkmark-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e8f5e9;
+            margin: 0 auto;
+          }
+          
+          .checkmark {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 4;
+            stroke-linecap: round;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+          }
+          
+          @keyframes stroke {
+            100% {
+              stroke-dashoffset: 0;
+            }
+          }
         `}
       </style>
 
@@ -287,9 +418,32 @@ const LoginPage = () => {
           
           {error && <p className="error-message">{error}</p>}
         </form>
-        
-       
       </div>
+      
+      {/* Success Notification */}
+      {showNotification && (
+        <div className="notification-overlay">
+          <div className="notification">
+            <div className="notification-icon">
+              <div className="checkmark-circle">
+                <svg width="32" height="32" viewBox="0 0 52 52">
+                  <circle cx="26" cy="26" r="25" fill="none" stroke="#4CAF50" strokeWidth="2" />
+                  <path className="checkmark" 
+                    fill="none" 
+                    stroke="#4CAF50" 
+                    d="M14.1 27.2l7.1 7.2 16.7-16.8" 
+                  />
+                </svg>
+              </div>
+            </div>
+            <h3>Login Berhasil!</h3>
+            <p>Selamat datang kembali, Admin. Anda akan diarahkan ke Dashboard.</p>
+            <div className="loading-bar">
+              <div className="loading-progress"></div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

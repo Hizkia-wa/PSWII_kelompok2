@@ -70,7 +70,7 @@ const JenisPermohonanList = () => {
                       <td>{item.jenisPermohonan}</td>
                       <td className="action-buttons">
                         <Link
-                          to={`/jenispermohonan/detail/${item.id}`}
+                          to={`/JenisPermohonanFormDetail/${item.id}`}
                           className="view-button"
                           title="Lihat Detail"
                         >
