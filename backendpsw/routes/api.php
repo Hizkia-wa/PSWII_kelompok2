@@ -31,5 +31,4 @@ Route::post('lokasi-objek-retribusi/{id}/restore', [LokasiObjekRetribusiControll
 Route::apiResource('jangka-waktu-sewa', JangkaWaktuSewaController::class);
 Route::apiResource('/jenis-jangka-waktu', JenisJangkaWaktuController::class);
 Route::apiResource('jenis-permohonan', JenisPermohonanController::class);
-Route::get('/users', [UserController::class, 'index']);
-
+Route::apiResource('users', UserController::class);

@@ -56,6 +56,7 @@ const UserList = () => {
                     </td>
                     <td>{u.keterangan}</td>
                     <td className="action-buttons">
+                      <Link to={`/user/detail/${u.userId}`} className="detail-button">Detail</Link>
                       <Link to={`/user/edit/${u.userId}`} className="edit-button">Edit</Link>
                       <button 
                         onClick={() => handleDelete(u.userId)} 

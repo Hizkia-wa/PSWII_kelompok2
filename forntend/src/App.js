@@ -53,6 +53,7 @@ import ShowJenisStatus from "./FormDetail/DetailJenisStatus";
 import PeruntukanSewaDetail from "./FormDetail/PeruntukanSewaDetail";
 import StatusDetail from "./FormDetail/StatusDetail";
 import WajibRetribusiDetail from './FormDetail/WajibRetribusiDetail';
+import UserDetail from './FormDetail/UserDetail';
 
 function Layout({ children }) {
   return (
@@ -128,6 +129,7 @@ function AppRoutes() {
         <Route path="/peruntukansewa/:id" element={<PeruntukanSewaDetail />} />
         <Route path="/status/:id" element={<StatusDetail />} />
         <Route path="/wajibretribusi/show/:id" element={<WajibRetribusiDetail />} />
+        <Route path="/user/detail/:id" element={<UserDetail />} />
       </Routes>
     </Layout>
   );
