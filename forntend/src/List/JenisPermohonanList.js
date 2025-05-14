@@ -38,7 +38,6 @@ const JenisPermohonanList = () => {
 
   return (
     <div className="app-container">
-   
       <div className="content-container">
         <div className="data-list-container">
           <div className="header-container">
@@ -47,12 +46,14 @@ const JenisPermohonanList = () => {
               + Tambah Data
             </Link>
           </div>
-          
+
           <div className="table-container">
             {loading ? (
               <div className="loading-indicator">Memuat data...</div>
             ) : posts.length === 0 ? (
-              <div className="empty-state">Belum ada data jenis permohonan.</div>
+              <div className="empty-state">
+                Belum ada data jenis permohonan.
+              </div>
             ) : (
               <table className="data-table">
                 <thead>
@@ -69,7 +70,7 @@ const JenisPermohonanList = () => {
                       <td>{item.jenisPermohonan}</td>
                       <td className="action-buttons">
                         <Link
-                          to={`/show/${item.id}`}
+                          to={`/jenispermohonan/detail/${item.id}`}
                           className="view-button"
                           title="Lihat Detail"
                         >
@@ -98,14 +99,14 @@ const JenisPermohonanList = () => {
           </div>
         </div>
       </div>
-      
+
       <style jsx>{`
         /* Global styles */
         * {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .app-container {
@@ -265,12 +266,12 @@ const JenisPermohonanList = () => {
             align-items: flex-start;
             gap: 12px;
           }
-          
+
           .add-button {
             width: 100%;
             text-align: center;
           }
-          
+
           .action-buttons {
             display: flex;
             flex-wrap: wrap;

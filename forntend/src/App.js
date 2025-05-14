@@ -40,6 +40,7 @@ import PermohonanSewaList from './List/PermohonanSewaList';
 import PermohonanSewaFormAdd from './FormAdd/PermohonanSewaFormAdd';
 import PermohonanSewaFormEdit from './FormEdit/PermohonanSewaFormEdit';
 import LoginPage from './pages/LoginPage';
+import JenisPermohonanFormDetail from "./FormDetail/JenisPermohonanFormDetail";
 
 function Layout({ children }) {
   return (
@@ -70,6 +71,7 @@ function AppRoutes() {
         <Route path="/jenispermohonan" element={<JenisPermohonanList />} />
         <Route path="/jenispermohonan/tambah" element={<JenisPermohonanAdd />} />
         <Route path="/jenispermohonan/edit/:id" element={<JenisPermohonanEdit />} />
+        <Route path="/jenispermohonan/detail/:id" element={<JenisPermohonanFormDetail />} />
         <Route path="/jenisjangkawaktu" element={<JenisJangkaWaktuList />} />
         <Route path="/jenisjangkawaktu/tambah" element={<JenisJangkaWaktuFormAdd />} />
         <Route path="/jenisjangkawaktu/edit/:id" element={<JenisJangkaWaktuFormEdit />} />
@@ -103,8 +105,6 @@ function AppRoutes() {
         <Route path="/permohonansewa" element={<PermohonanSewaList />} />
         <Route path="/permohonansewa/add" element={<PermohonanSewaFormAdd />} />
         <Route path="/permohonansewa/edit/:id" element={<PermohonanSewaFormEdit />} />
-        {/* Fallback jika route tidak ditemukan */}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Layout>
   );
