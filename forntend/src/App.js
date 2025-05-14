@@ -41,10 +41,18 @@ import PermohonanSewaFormAdd from './FormAdd/PermohonanSewaFormAdd';
 import PermohonanSewaFormEdit from './FormEdit/PermohonanSewaFormEdit';
 import LoginPage from './pages/LoginPage';
 import JenisPermohonanFormDetail from "./FormDetail/JenisPermohonanFormDetail";
+import DetailPermohonanSewa from './FormDetail/DetailPermohonanSewa';
+import DetailJenisJangkaWaktu from './FormDetail/DetailJenisJangkaWaktu';
 import DashboardList from './List/Dashboard';
-
-
-
+import DetailJangkaWaktuSewa from './FormDetail/DetailJangkaWaktuSewa';
+import JenisObjekRetribusiFormDetail from './FormDetail/DetailJenisObjekRetribusi';
+import LokasiObjekRetribusiDetail from "./FormDetail/DetailLokasiObjekRetribusi";
+import ObjekRetribusiDetail from "./FormDetail/DetailObjekRetribusi";
+import TarifObjekRetribusiDetail from "./FormDetail/DetailTarifObjekRetribusi";
+import ShowJenisStatus from "./FormDetail/DetailJenisStatus";
+import PeruntukanSewaDetail from "./FormDetail/PeruntukanSewaDetail";
+import StatusDetail from "./FormDetail/StatusDetail";
+import WajibRetribusiDetail from './FormDetail/WajibRetribusiDetail';
 
 function Layout({ children }) {
   return (
@@ -79,15 +87,18 @@ function AppRoutes() {
         <Route path="/jenisjangkawaktu" element={<JenisJangkaWaktuList />} />
         <Route path="/jenisjangkawaktu/tambah" element={<JenisJangkaWaktuFormAdd />} />
         <Route path="/jenisjangkawaktu/edit/:id" element={<JenisJangkaWaktuFormEdit />} />
+        <Route path="/JenisJangkaWaktu/detail/:id" element={<DetailJenisJangkaWaktu />} />
         <Route path="/jangkawaktusewa" element={<JangkaWaktuSewaList />} />
         <Route path="/jangkawaktusewa/tambah" element={<JangkaWaktuSewaFormAdd />} />
         <Route path="/jangkawaktusewa/edit/:id" element={<JangkaWaktuSewaFormEdit />} />
+        <Route path="/JangkaWaktuSewa/detail/:id" element={<DetailJangkaWaktuSewa />} />
         <Route path="/lokasiobjekretribusi" element={<LokasiObjekRetribusiList />} />
         <Route path="/lokasiobjekretribusi/add" element={<LokasiObjekRetribusiFormAdd />} />
         <Route path="/lokasiobjekretribusi/edit/:id" element={<LokasiObjekRetribusiFormEdit />} />
         <Route path="/jenisobjekretribusi" element={<JenisObjekRetribusiList />} />
         <Route path="/jenisobjekretribusi/create" element={<JenisObjekRetribusiFormAdd />} />
         <Route path="/jenisobjekretribusi/edit/:id" element={<JenisObjekRetribusiFormEdit />} />
+        <Route path="/jenisobjekretribusi/detail/:id" element={<JenisObjekRetribusiFormDetail />} />
         <Route path="/objekretribusi" element={<ObjekRetribusiList />} />
         <Route path="/objekretribusi/create" element={<ObjekRetribusiFormAdd />} />
         <Route path="/objekretribusi/edit/:id" element={<ObjekRetribusiFormEdit />} />
@@ -109,6 +120,14 @@ function AppRoutes() {
         <Route path="/permohonansewa" element={<PermohonanSewaList />} />
         <Route path="/permohonansewa/add" element={<PermohonanSewaFormAdd />} />
         <Route path="/permohonansewa/edit/:id" element={<PermohonanSewaFormEdit />} />
+        <Route path="/permohonansewa/detail/:id" element={<DetailPermohonanSewa />} />
+        <Route path="/lokasiobjekretribusi/show/:id" element={<LokasiObjekRetribusiDetail />} />
+        <Route path="/objekretribusi/show/:id" element={<ObjekRetribusiDetail />} />
+        <Route path="/tarif/show/:id" element={<TarifObjekRetribusiDetail />} />
+        <Route path="/jenis-status/:id" element={<ShowJenisStatus />} />
+        <Route path="/peruntukansewa/:id" element={<PeruntukanSewaDetail />} />
+        <Route path="/status/:id" element={<StatusDetail />} />
+        <Route path="/wajibretribusi/show/:id" element={<WajibRetribusiDetail />} />
       </Routes>
     </Layout>
   );

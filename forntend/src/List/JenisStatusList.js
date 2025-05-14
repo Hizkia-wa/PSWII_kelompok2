@@ -207,6 +207,32 @@ const ListJenisStatus = () => {
           font-size: 14px;
           color: #666;
         }
+          /* Tombol detail */
+.detail-button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.detail-button:hover {
+  background-color: #1976d2;
+}
+
+/* Ikon detail (mata) */
+.detail-icon::before {
+  content: "👁";
+  font-size: 16px;
+}
+
       `}</style>
       <div className="container">
         <div className="card-container">
@@ -240,6 +266,9 @@ const ListJenisStatus = () => {
                         <div className="action-buttons">
                           <Link to={`/edit-jenis-status/${item.idJenisStatus}`} className="edit-button">
                             <span className="edit-icon"></span>
+                          </Link>
+                          <Link to={`/jenis-status/${item.idJenisStatus}`} className="detail-button">
+                            <span className="detail-icon"></span>
                           </Link>
                           <button
                             className="delete-button"

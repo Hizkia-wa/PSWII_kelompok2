@@ -50,6 +50,7 @@ function StatusList() {
               <td>{status.namaStatus}</td>
               <td>{status.keterangan}</td>
               <td>
+                <button onClick={() => navigate(`/status/${status.idStatus}`)}>Detail</button>{' '}
                 <button onClick={() => navigate(`/status/edit/${status.idStatus}`)}>Edit</button>{' '}
                 <button onClick={() => handleDelete(status.idStatus)}>Hapus</button>
               </td>

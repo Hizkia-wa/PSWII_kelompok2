@@ -156,6 +156,12 @@ function PeruntukanSewaList() {
                   <td style={styles.tableCell}>
                     <div style={styles.actionCell}>
                       <button 
+                        style={{ ...styles.editButton, backgroundColor: '#2196F3' }} 
+                        onClick={() => navigate(`/peruntukansewa/${item.idPeruntukanSewa}`)}
+                      >
+                        Detail
+                      </button>
+                      <button 
                         style={styles.editButton} 
                         onClick={() => navigate(`/peruntukansewa/edit/${item.idPeruntukanSewa}`)}
                       >

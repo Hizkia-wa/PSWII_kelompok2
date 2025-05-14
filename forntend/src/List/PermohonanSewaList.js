@@ -212,6 +212,12 @@ const PermohonanSewaList = () => {
                   <td style={styles.tableCell}>{item.keterangan || '-'}</td>
                   <td style={styles.actionCell}>
                     <Link
+                      to={`/permohonansewa/detail/${item.idPermohonanSewa}`}
+                      style={{ ...styles.actionButton, backgroundColor: '#E8F5E9', color: '#4CAF50' }}
+                    >
+                      Detail
+                    </Link>
+                    <Link
                       to={`/permohonansewa/edit/${item.idPermohonanSewa}`}
                       style={{...styles.actionButton, ...styles.editButton}}
                     >

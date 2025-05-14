@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import WajibRetribusiEdit from '../FormEdit/WajibRetribusiFormEdit';
-import WajibRetribusiAdd from '../FormAdd/WajibRetribusiFormAdd';
+import { useNavigate } from 'react-router-dom';
 
-const WajibRetribusiList = () => {
+function WajibRetribusiList() {
   const [data, setData] = useState([]);
-  const [editItem, setEditItem] = useState(null);
-  const [showAddForm, setShowAddForm] = useState(false);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
       const res = await axios.get('http://localhost:8000/api/wajib-retribusi');
       setData(res.data.data);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error('Gagal mengambil data wajib retribusi:', error);
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Yakin ingin menghapus data ini?')) {
-      try {
-        await axios.delete(`http://localhost:8000/api/wajib-retribusi/${id}`);
-        fetchData();
-      } catch (err) {
-        console.error(err);
-      }
+    const confirm = window.confirm('Yakin ingin menghapus data ini?');
+    if (!confirm) return;
+
+    try {
+      await axios.delete(`http://localhost:8000/api/wajib-retribusi/${id}`);
+      alert('Data berhasil dihapus');
+      fetchData(); // Refresh data setelah delete
+    } catch (error) {
+      alert('Gagal menghapus data');
+      console.error(error);
     }
   };
 
@@ -33,180 +34,58 @@ const WajibRetribusiList = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="header">
-        <h2>Daftar Wajib Retribusi</h2>
-        <button className="btn-add" onClick={() => setShowAddForm(true)}>
-          <span className="plus-icon">+</span> Tambah Data
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2 style={{ borderLeft: '5px solid #2a3c85', paddingLeft: '10px' }}>Daftar Wajib Retribusi</h2>
+        <button
+          onClick={() => navigate('/wajibretribusi/create')}
+          style={{ padding: '8px 16px', background: '#2a3c85', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        >
+          + Tambah
         </button>
       </div>
 
-      {showAddForm && <WajibRetribusiAdd onClose={() => { setShowAddForm(false); fetchData(); }} />}
-      {editItem && <WajibRetribusiEdit data={editItem} onClose={() => { setEditItem(null); fetchData(); }} />}
-
-      <div className="table-container">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>NIK</th>
-              <th>Nama</th>
-              <th>Pekerjaan</th>
-              <th>Alamat</th>
-              <th>Aksi</th>
+      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+        <thead>
+          <tr style={{ background: '#2a3c85', color: 'white' }}>
+            <th style={{ padding: '10px', border: '1px solid #ccc' }}>NIK</th>
+            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Nama</th>
+            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Alamat</th>
+            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr key={item.idWajibRetribusi}>
+              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{item.NIK}</td>
+              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{item.namaWajibRetribusi}</td>
+              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{item.alamat}</td>
+              <td style={{ padding: '10px', border: '1px solid #ccc' }}>
+                <button
+                  onClick={() => navigate(`/wajibretribusi/show/${item.idWajibRetribusi}`)}
+                  style={{ marginRight: '5px', background: '#4caf50', color: 'white', border: 'none', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer' }}
+                >
+                  👁️
+                </button>
+                <button
+                  onClick={() => navigate(`/wajibretribusi/edit/${item.idWajibRetribusi}`)}
+                  style={{ marginRight: '5px', background: '#fbc02d', color: 'white', border: 'none', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer' }}
+                >
+                  ✏️
+                </button>
+                <button
+                  onClick={() => handleDelete(item.idWajibRetribusi)}
+                  style={{ background: '#e53935', color: 'white', border: 'none', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer' }}
+                >
+                  🗑️
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {data.map((item) => (
-              <tr key={item.idWajibRetribusi}>
-                <td>{item.NIK}</td>
-                <td>{item.namaWajibRetribusi}</td>
-                <td>{item.pekerjaan}</td>
-                <td>{item.alamat}</td>
-                <td className="action-buttons">
-                  <button className="btn-edit" onClick={() => setEditItem(item)}>Edit</button>
-                  <button className="btn-delete" onClick={() => handleDelete(item.idWajibRetribusi)}>Hapus</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="table-footer">
-          <p>Menampilkan {data.length} dari {data.length} data</p>
-        </div>
-      </div>
-
-      <style jsx>{`
-        /* Global styles */
-        * {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-          font-family: Arial, sans-serif;
-        }
-
-        .container {
-          padding: 20px;
-          background-color: #f5f5f5;
-          min-height: 100vh;
-        }
-
-        /* Header styles */
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 20px;
-          padding-left: 30px;
-          border-left: 5px solid #2a3c85;
-        }
-
-        .header h2 {
-          color: #333;
-          font-size: 24px;
-          font-weight: bold;
-        }
-
-        /* Button styles */
-        .btn-add {
-          background-color: #2a3c85;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          padding: 8px 16px;
-          font-size: 14px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          transition: background-color 0.3s;
-        }
-
-        .btn-add:hover {
-          background-color: #1e2d6b;
-        }
-
-        .plus-icon {
-          margin-right: 5px;
-          font-weight: bold;
-          font-size: 18px;
-        }
-
-        /* Table styles */
-        .table-container {
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          overflow: hidden;
-        }
-
-        .data-table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-
-        .data-table th {
-          background-color: #f8f9fa;
-          text-align: left;
-          padding: 12px 15px;
-          font-weight: bold;
-          color: #555;
-          border-bottom: 1px solid #dee2e6;
-        }
-
-        .data-table td {
-          padding: 12px 15px;
-          border-bottom: 1px solid #e9ecef;
-          color: #333;
-        }
-
-        .data-table tr:hover {
-          background-color: #f8f9fa;
-        }
-
-        /* Action buttons */
-        .action-buttons {
-          display: flex;
-          gap: 8px;
-        }
-
-        .btn-edit {
-          background-color: #4caf50;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          padding: 6px 12px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-        }
-
-        .btn-edit:hover {
-          background-color: #45a049;
-        }
-
-        .btn-delete {
-          background-color: #f44336;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          padding: 6px 12px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-        }
-
-        .btn-delete:hover {
-          background-color: #d32f2f;
-        }
-
-        /* Table footer */
-        .table-footer {
-          padding: 12px 15px;
-          color: #777;
-          font-size: 14px;
-          text-align: right;
-          border-top: 1px solid #e9ecef;
-        }
-      `}</style>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-};
+}
 
 export default WajibRetribusiList;

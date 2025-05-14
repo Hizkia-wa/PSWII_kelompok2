@@ -52,6 +52,7 @@ function ListObjekRetribusi() {
               <td>{item.noBangunan}</td>
               <td>{item.alamat}</td>
               <td>
+                <button onClick={() => navigate(`/objekretribusi/show/${item.id}`)}>Detail</button>{' '}
                 <button onClick={() => navigate(`/objekretribusi/edit/${item.id}`)}>Edit</button>{' '}
                 <button onClick={() => handleDelete(item.id)}>Hapus</button>
               </td>

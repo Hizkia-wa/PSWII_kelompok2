@@ -51,4 +51,5 @@ class JenisPermohonanController extends Controller
         $jenisPermohonan->update(['isDeleted' => true]);
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
+
 }

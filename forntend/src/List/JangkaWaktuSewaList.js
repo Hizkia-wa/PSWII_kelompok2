@@ -169,6 +169,9 @@ const JangkaWaktuSewaList = () => {
                   <td style={{...styles.td, ...styles.center}}>{item.isDefault ? 'Ya' : 'Tidak'}</td>
                   <td style={styles.td}>
                     <div style={styles.actionButtons}>
+                      <Link to={`/JangkaWaktuSewa/detail/${item.idJangkaWaktuSewa}`} style={{ textDecoration: 'none' }}>
+                        <button style={styles.editButton}>Detail</button>
+                      </Link>
                       <Link to={`/JangkaWaktuSewa/edit/${item.idJangkaWaktuSewa}`} style={{ textDecoration: 'none' }}>
                         <button style={styles.editButton}>Edit</button>
                       </Link>

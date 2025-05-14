@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const TarifObjekRetribusiList = () => {
+const WajibRetribusiList = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const fetchTarif = async () => {
+    const fetchWajibRetribusi = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/tarif-objek-retribusi');
+        const response = await axios.get('http://localhost:8000/api/wajib-retribusi');
         setData(response.data.data);
       } catch (error) {
         console.error('Gagal mengambil data:', error);
       }
     };
-    fetchTarif();
+    fetchWajibRetribusi();
   }, []);
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Yakin ingin menghapus data ini?')) {
+      try {
+        await axios.delete(`http://localhost:8000/api/wajib-retribusi/${id}`);
+        setData(data.filter(item => item.idWajibRetribusi !== id));
+      } catch (error) {
+        console.error('Gagal menghapus data:', error);
+      }
+    }
+  };
 
   return (
     <>
       <style>{`
-        .tarif-container {
+        .container {
           font-family: Arial, sans-serif;
           padding: 20px;
           background-color: #f5f5f5;
@@ -83,12 +95,12 @@ const TarifObjekRetribusiList = () => {
           overflow: hidden;
         }
 
-        .tarif-table {
+        table {
           width: 100%;
           border-collapse: collapse;
         }
 
-        .tarif-table th {
+        th {
           background-color: #f8f9fa;
           color: #666;
           text-align: left;
@@ -97,36 +109,32 @@ const TarifObjekRetribusiList = () => {
           font-weight: 600;
         }
 
-        .tarif-table td {
+        td {
           padding: 15px;
           border-bottom: 1px solid #e0e0e0;
           color: #333;
         }
 
-        .tarif-table tr:last-child td {
+        tr:last-child td {
           border-bottom: none;
         }
 
-        .tarif-table tr:hover {
+        tr:hover {
           background-color: #f9f9f9;
         }
 
-        .column-narrow {
-          width: 50px;
-        }
-
         .column-actions {
-          width: 120px;
+          width: 150px;
           text-align: center;
         }
 
         .action-buttons {
           display: flex;
           justify-content: center;
-          gap: 10px;
+          gap: 8px;
         }
 
-        .edit-button {
+        .edit-button, .detail-button {
           background-color: #ffa000;
           color: white;
           border: none;
@@ -153,10 +161,6 @@ const TarifObjekRetribusiList = () => {
           justify-content: center;
         }
 
-        .pencil-icon, .trash-icon {
-          font-size: 16px;
-        }
-
         .pagination-info {
           padding: 15px;
           color: #666;
@@ -171,51 +175,65 @@ const TarifObjekRetribusiList = () => {
           padding: 30px 0;
         }
       `}</style>
-      <div className="tarif-container">
+
+      <div className="container">
         <div className="header-container">
           <div className="header-title">
             <div className="blue-bar"></div>
-            <h2>Daftar Tarif Objek Retribusi</h2>
+            <h2>Daftar Wajib Retribusi</h2>
           </div>
-          <Link to="/tarifobjekretribusi/add" className="add-button">
-            <span className="plus-icon">+</span> Tambah Tarif
+          <Link to="/wajib-retribusi/add" className="add-button">
+            <span className="plus-icon">+</span> Tambah Wajib Retribusi
           </Link>
         </div>
 
         <div className="table-container">
-          <table className="tarif-table">
+          <table>
             <thead>
               <tr>
-                <th className="column-narrow">#</th>
-                <th>Objek Retribusi</th>
-                <th>Penilai</th>
-                <th>Nominal</th>
-                <th>Tanggal Dinilai</th>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Alamat</th>
+                <th>Kontak</th>
                 <th className="column-actions">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {data.length > 0 ? (
                 data.map((item, idx) => (
-                  <tr key={item.idTarifObjekRetribusi}>
-                    <td className="column-narrow">{idx + 1}</td>
-                    <td>{item.idObjekRetribusi}</td>
-                    <td>{item.namaPenilai}</td>
-                    <td>{item.nominalTarif}</td>
-                    <td>{item.tanggalDinilai}</td>
+                  <tr key={item.idWajibRetribusi}>
+                    <td>{idx + 1}</td>
+                    <td>{item.nama}</td>
+                    <td>{item.alamat}</td>
+                    <td>{item.kontak}</td>
                     <td className="action-buttons">
-                      <Link to={`/tarif/edit/${item.idTarifObjekRetribusi}`} className="edit-button">
-                        <span className="pencil-icon">✎</span>
+                      <Link
+                        to={`/wajib-retribusi/detail/${item.idWajibRetribusi}`}
+                        className="detail-button"
+                        title="Detail"
+                      >
+                        👁️
                       </Link>
-                      <button className="delete-button">
-                        <span className="trash-icon">🗑</span>
+                      <Link
+                        to={`/wajib-retribusi/edit/${item.idWajibRetribusi}`}
+                        className="edit-button"
+                        title="Edit"
+                      >
+                        ✎
+                      </Link>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDelete(item.idWajibRetribusi)}
+                        title="Hapus"
+                      >
+                        🗑
                       </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="no-data">Tidak ada data</td>
+                  <td colSpan="5" className="no-data">Tidak ada data</td>
                 </tr>
               )}
             </tbody>
@@ -229,4 +247,4 @@ const TarifObjekRetribusiList = () => {
   );
 };
 
-export default TarifObjekRetribusiList;
+export default WajibRetribusiList;

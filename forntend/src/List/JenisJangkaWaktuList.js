@@ -219,6 +219,13 @@ const DaftarJenisJangkaWaktu = () => {
                     <td>
                       <div className="d-flex gap-2">
                         <Link
+                          to={`/JenisJangkaWaktu/detail/${item.idJenisJangkaWaktu}`}
+                          className="btn btn-sm btn-info"
+                          style={{ ...styles.actionButton, backgroundColor: "#17a2b8", borderColor: "#17a2b8", color: "#fff" }}
+                        >
+                          <span>🔍</span> Detail
+                        </Link>
+                        <Link
                           to={`/JenisJangkaWaktu/edit/${item.idJenisJangkaWaktu}`}
                           className="btn btn-sm btn-warning"
                           style={{...styles.actionButton, ...styles.editButton}}

@@ -299,14 +299,23 @@ const JenisObjekRetribusiList = () => {
                       <td>
                         <div className="action-buttons">
                           <Link
+                            to={`/jenisobjekretribusi/detail/${item.idJenisObjekRetribusi}`}
+                            className="btn btn-primary btn-icon"
+                            title="Lihat Detail"
+                          >
+                            👁️
+                          </Link>
+                          <Link
                             to={`/jenisobjekretribusi/edit/${item.idJenisObjekRetribusi}`}
                             className="btn btn-warning btn-icon"
+                            title="Edit Data"
                           >
                             ✏️
                           </Link>
                           <button
                             className="btn btn-danger btn-icon"
                             onClick={() => handleDelete(item.idJenisObjekRetribusi)}
+                            title="Hapus Data"
                           >
                             🗑️
                           </button>
