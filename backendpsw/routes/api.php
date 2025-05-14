@@ -15,7 +15,9 @@ use App\Http\Controllers\Api\PeruntukanSewaController;
 use App\Http\Controllers\Api\WajibRetribusiController;
 use App\Http\Controllers\Api\TarifObjekRetribusiController;
 use App\Http\Controllers\Api\PermohonanSewaController;
+use App\Http\Controllers\AuthController;
 
+Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('permohonan-sewa', PermohonanSewaController::class);
 Route::apiResource('tarif-objek-retribusi', TarifObjekRetribusiController::class);
 Route::apiResource('wajib-retribusi', WajibRetribusiController::class);
