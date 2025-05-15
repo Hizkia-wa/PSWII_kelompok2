@@ -1,8 +1,6 @@
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-
 
 const API = "http://localhost:8000/api/users";
 
@@ -33,100 +31,113 @@ const UserFormAdd = () => {
 
   return (
     <div className="app-container">
-    
       <div className="content-container">
-        <div className="form-container">
-          <div className="form-header">
-            <h2 className="page-title">Tambah User</h2>
-            <Link to="/user" className="back-button">Kembali</Link>
-          </div>
-          
-          <form onSubmit={handleSubmit} className="user-form">
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input 
-                id="username"
-                name="username" 
-                value={form.username} 
-                onChange={handleChange} 
-                placeholder="Masukkan username" 
-                required 
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input 
-                id="email"
-                name="email" 
-                value={form.email} 
-                onChange={handleChange} 
-                placeholder="Masukkan email" 
-                required 
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="token">Token</label>
-              <input 
-                id="token"
-                name="token" 
-                value={form.token} 
-                onChange={handleChange} 
-                placeholder="Masukkan token (opsional)" 
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input 
-                id="password"
-                name="password" 
-                value={form.password} 
-                onChange={handleChange} 
-                placeholder="Masukkan password" 
-                type="password" 
-                required 
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="status">Status</label>
-              <select 
-                id="status"
-                name="status" 
-                value={form.status} 
-                onChange={handleChange}
-              >
-                <option value="Aktif">Aktif</option>
-                <option value="Nonaktif">Nonaktif</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="keterangan">Keterangan</label>
-              <textarea
-                id="keterangan"
-                name="keterangan" 
-                value={form.keterangan} 
-                onChange={handleChange} 
-                placeholder="Masukkan keterangan (opsional)"
-                rows="3"
-              />
-            </div>
-            
-            <div className="form-actions">
-              <button type="button" className="cancel-button" onClick={() => navigate("/user")}>
-                Batal
-              </button>
-              <button type="submit" className="submit-button">
-                Simpan
-              </button>
-            </div>
-          </form>
+        <div className="form-header">
+          <h2 className="page-title">Tambah User</h2>
         </div>
+
+        <div className="form-description">
+          Silakan isi formulir di bawah ini untuk menambahkan user baru.
+        </div>
+
+        <form onSubmit={handleSubmit} className="user-form">
+          <div className="form-group">
+            <label htmlFor="username">
+              Username <span className="required">*</span>
+            </label>
+            <input
+              id="username"
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              placeholder="Masukkan username"
+              required
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">
+              Email <span className="required">*</span>
+            </label>
+            <input
+              id="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Masukkan email"
+              required
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">
+              Password <span className="required">*</span>
+            </label>
+            <input
+              id="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Masukkan password"
+              type="password"
+              required
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="token">Token</label>
+            <input
+              id="token"
+              name="token"
+              value={form.token}
+              onChange={handleChange}
+              placeholder="Masukkan token (opsional)"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="status">Status</label>
+            <select
+              id="status"
+              name="status"
+              value={form.status}
+              onChange={handleChange}
+              className="form-input"
+            >
+              <option value="Aktif">Aktif</option>
+              <option value="Nonaktif">Nonaktif</option>
+            </select>
+            <div className="form-hint">Contoh: Aktif, Nonaktif</div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="keterangan">Keterangan</label>
+            <textarea
+              id="keterangan"
+              name="keterangan"
+              value={form.keterangan}
+              onChange={handleChange}
+              placeholder="Masukkan keterangan atau deskripsi tambahan (opsional)"
+              rows="3"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-actions">
+            <button type="button" className="cancel-button" onClick={() => navigate("/user")}>
+              <span className="button-icon">✕</span> Batal
+            </button>
+            <button type="submit" className="submit-button">
+              <span className="button-icon">💾</span> Simpan Data
+            </button>
+          </div>
+        </form>
       </div>
-      
+
       <style jsx>{`
         /* Global styles */
         * {
@@ -137,60 +148,40 @@ const UserFormAdd = () => {
         }
 
         .app-container {
-          display: flex;
           min-height: 100vh;
-          background-color: #f5f7fa;
+          background-color: #f9fafb;
+          padding: 20px;
         }
 
         /* Main content area */
         .content-container {
-          flex: 1;
-          padding: 20px;
-          overflow-y: auto;
-        }
-
-        /* Form container */
-        .form-container {
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-          overflow: hidden;
           max-width: 800px;
           margin: 0 auto;
         }
 
         /* Form header */
         .form-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px 24px;
-          border-bottom: 1px solid #eaedf3;
+          margin-bottom: 10px;
+          padding-left: 10px;
+          border-left: 4px solid #3b82f6;
         }
 
         .page-title {
-          color: #2d3748;
+          color: #1e293b;
           font-size: 24px;
           font-weight: 600;
         }
-
-        .back-button {
-          display: inline-block;
-          background-color: #64748b;
-          color: white;
-          padding: 8px 16px;
-          border-radius: 4px;
-          text-decoration: none;
-          font-weight: 500;
-          transition: background-color 0.2s;
-        }
-
-        .back-button:hover {
-          background-color: #475569;
+        
+        .form-description {
+          margin-bottom: 20px;
+          color: #64748b;
         }
 
         /* Form styling */
         .user-form {
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
           padding: 24px;
         }
 
@@ -202,85 +193,92 @@ const UserFormAdd = () => {
           display: block;
           margin-bottom: 8px;
           font-weight: 500;
-          color: #4b5563;
+          color: #475569;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .required {
+          color: #ef4444;
+        }
+
+        .form-hint {
+          margin-top: 4px;
+          color: #64748b;
+          font-size: 14px;
+        }
+
+        .form-input {
           width: 100%;
-          padding: 12px;
-          border: 1px solid #d1d5db;
+          padding: 10px 12px;
+          border: 1px solid #cbd5e1;
           border-radius: 4px;
           font-size: 15px;
           transition: border-color 0.2s;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-input:focus {
           outline: none;
-          border-color: #2563eb;
-          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
 
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-          color: #9ca3af;
+        .form-input::placeholder {
+          color: #94a3b8;
         }
 
         /* Form action buttons */
         .form-actions {
           display: flex;
-          justify-content: flex-end;
           gap: 12px;
           margin-top: 32px;
         }
 
+        .button-icon {
+          margin-right: 6px;
+        }
+
         .cancel-button {
-          padding: 10px 20px;
-          background-color: #f3f4f6;
-          color: #4b5563;
-          border: 1px solid #d1d5db;
+          padding: 10px 16px;
+          background-color: #f1f5f9;
+          color: #64748b;
+          border: 1px solid #cbd5e1;
           border-radius: 4px;
           font-weight: 500;
           cursor: pointer;
+          display: flex;
+          align-items: center;
           transition: all 0.2s;
         }
 
         .cancel-button:hover {
-          background-color: #e5e7eb;
+          background-color: #e2e8f0;
         }
 
         .submit-button {
-          padding: 10px 20px;
-          background-color: #1e40af; /* Deep blue to match sidebar */
+          padding: 10px 16px;
+          background-color: #22c55e;
           color: white;
           border: none;
           border-radius: 4px;
           font-weight: 500;
           cursor: pointer;
+          display: flex;
+          align-items: center;
           transition: background-color 0.2s;
         }
 
         .submit-button:hover {
-          background-color: #2563eb;
+          background-color: #16a34a;
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
-          .form-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 12px;
-          }
-          
+        @media (max-width: 640px) {
           .form-actions {
-            flex-direction: column;
+            flex-direction: column-reverse;
           }
           
           .submit-button, .cancel-button {
             width: 100%;
+            justify-content: center;
           }
         }
       `}</style>
