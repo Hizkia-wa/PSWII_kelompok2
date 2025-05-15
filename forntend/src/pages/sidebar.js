@@ -782,7 +782,7 @@ export default function Sidebar() {
       
       {/* Logout */}
       <div style={styles.logoutSection}>
-        <Link to="/logout" style={styles.link}>
+        <Link to="/login" style={styles.link}>
           <div
             style={{
               ...styles.logoutButton,
