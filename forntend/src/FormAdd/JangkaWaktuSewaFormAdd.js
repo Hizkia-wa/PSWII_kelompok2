@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const JangkaWaktuSewaFormAdd = () => {
+  
   const [formData, setFormData] = useState({
     idJenisJangkaWaktu: '',
     jangkaWaktuSewa: '',
@@ -10,6 +11,12 @@ const JangkaWaktuSewaFormAdd = () => {
   });
   
   const [jenisList, setJenisList] = useState([]);
+  const [notification, setNotification] = useState({
+    show: false,
+    type: '',
+    message: ''
+  });
+  const [isLoading, setIsLoading] = useState(false);
   
   // Ambil data jenis jangka waktu dari API Laravel
   useEffect(() => {
@@ -20,12 +27,32 @@ const JangkaWaktuSewaFormAdd = () => {
       })
       .catch(err => {
         console.error('Gagal mengambil data jenis jangka waktu:', err);
+        showNotification('error', 'Gagal memuat data jenis jangka waktu');
       });
   }, []);
+  
+  // Function untuk menampilkan notifikasi
+  const showNotification = (type, message) => {
+    setNotification({
+      show: true,
+      type,
+      message
+    });
+    
+    // Sembunyikan notifikasi setelah 5 detik
+    setTimeout(() => {
+      setNotification({
+        show: false,
+        type: '',
+        message: ''
+      });
+    }, 5000);
+  };
   
   // Kirim form ke API Laravel
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     
     const data = {
       idJenisJangkaWaktu: formData.idJenisJangkaWaktu,
@@ -37,16 +64,44 @@ const JangkaWaktuSewaFormAdd = () => {
     axios.post('http://localhost:8000/api/jangka-waktu-sewa', data)
       .then(response => {
         console.log('Data berhasil ditambahkan', response);
+        showNotification('success', 'Data berhasil disimpan!');
+        // Reset form setelah berhasil
+        setFormData({
+          idJenisJangkaWaktu: '',
+          jangkaWaktuSewa: '',
+          keterangan: '',
+          isDefault: false
+        });
       })
       .catch(error => {
         console.error('Gagal menambahkan data:', error);
-        alert('Terjadi kesalahan. Cek log untuk detail.');
+        showNotification('error', 'Gagal menyimpan data. Silakan coba lagi.');
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
+  };
+
+  // Handler untuk kembali ke halaman sebelumnya
+  const handleBack = () => {
+    window.history.back(); // Menggunakan history API standar untuk navigasi kembali
   };
   
   return (
     <div className="jangka-waktu-container">
-      <h2 className="form-title">Tambah Jenis Jangka Waktu</h2>
+      {/* Notifikasi */}
+      {notification.show && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
+      
+      <div className="header">
+        <button onClick={handleBack} className="btn btn-back">
+          <span className="back-icon">←</span> Kembali
+        </button>
+        <h2 className="form-title">Tambah Jenis Jangka Waktu</h2>
+      </div>
       <div className="form-divider"></div>
       
       <form onSubmit={handleSubmit}>
@@ -104,8 +159,10 @@ const JangkaWaktuSewaFormAdd = () => {
         </div>
         
         <div className="form-buttons">
-          <button type="button" className="btn btn-cancel">Batal</button>
-          <button type="submit" className="btn btn-save">Simpan</button>
+          <button type="button" onClick={handleBack} className="btn btn-cancel">Batal</button>
+          <button type="submit" disabled={isLoading} className="btn btn-save">
+            {isLoading ? 'Menyimpan...' : 'Simpan'}
+          </button>
         </div>
       </form>
       
@@ -117,19 +174,82 @@ const JangkaWaktuSewaFormAdd = () => {
           margin: 0 auto;
           padding: 20px;
           background: #ffffff;
+          position: relative;
+        }
+        
+        .header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 15px;
+        }
+        
+        .btn-back {
+          display: flex;
+          align-items: center;
+          background: transparent;
+          border: none;
+          color: #2463eb;
+          font-size: 14px;
+          cursor: pointer;
+          padding: 8px 12px;
+          margin-right: 15px;
+          border-radius: 4px;
+          transition: background-color 0.2s;
+        }
+        
+        .btn-back:hover {
+          background-color: rgba(36, 99, 235, 0.1);
+        }
+        
+        .back-icon {
+          margin-right: 5px;
+          font-size: 16px;
         }
         
         .form-title {
           font-size: 24px;
           font-weight: 600;
           color: #333;
-          margin-bottom: 10px;
+          margin: 0;
         }
         
         .form-divider {
           height: 1px;
           background-color: #e0e0e0;
           margin-bottom: 30px;
+        }
+        
+        /* Notifikasi styles */
+        .notification {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 15px 25px;
+          border-radius: 4px;
+          color: #fff;
+          font-weight: 500;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+          animation: slideIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        .notification.success {
+          background-color: #10b981;
+        }
+        
+        .notification.error {
+          background-color: #ef4444;
         }
         
         .form-group {
@@ -232,10 +352,25 @@ const JangkaWaktuSewaFormAdd = () => {
           background-color: #1e50c8;
         }
         
+        .btn-save:disabled {
+          background-color: #93c5fd;
+          border-color: #93c5fd;
+          cursor: not-allowed;
+        }
+        
         /* Responsif untuk layar kecil */
         @media (max-width: 768px) {
           .jangka-waktu-container {
             padding: 15px;
+          }
+          
+          .header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          
+          .btn-back {
+            margin-bottom: 10px;
           }
           
           .form-buttons {
@@ -245,6 +380,12 @@ const JangkaWaktuSewaFormAdd = () => {
           .btn {
             width: 100%;
             margin-bottom: 10px;
+          }
+          
+          .notification {
+            width: 80%;
+            left: 10%;
+            right: 10%;
           }
         }
       `}</style>

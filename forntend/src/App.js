@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Sidebar from "./pages/sidebar";
 import UserList from "./List/UserList";
 import UserFormAdd from "./FormAdd/UserFormAdd";
@@ -67,9 +68,12 @@ function Layout({ children }) {
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem('token');
   const location = useLocation();
+  
   if (!token) {
+    // Redirect to login page with current location to redirect back after login
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
+  
   return children;
 }
 
@@ -77,7 +81,7 @@ function AppRoutes() {
   return (
     <Layout>
       <Routes>
-         <Route path="/dashboard" element={<DashboardList />} />
+        <Route path="/dashboard" element={<DashboardList />} />
         <Route path="/user" element={<UserList />} />
         <Route path="/user/tambah" element={<UserFormAdd />} />
         <Route path="/user/edit/:id" element={<UserFormEdit />} />
@@ -135,11 +139,48 @@ function AppRoutes() {
   );
 }
 
+// Auth checker component to verify login status
+function AuthChecker() {
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Check if user is authenticated
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+    setLoading(false);
+  }, []);
+  
+  if (loading) {
+    // Show loading while checking authentication
+    return <div>Loading...</div>;
+  }
+  
+  // If user is not authenticated and trying to access a protected route
+  if (!isAuthenticated && location.pathname !== '/login') {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  
+  // If user is authenticated and trying to access login page
+  if (isAuthenticated && location.pathname === '/login') {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return null;
+}
+
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Root path redirects to login page initially */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        
+        {/* Login page is accessible without authentication */}
         <Route path="/login" element={<LoginPage />} />
+        
+        {/* All other routes require authentication */}
         <Route
           path="/*"
           element={

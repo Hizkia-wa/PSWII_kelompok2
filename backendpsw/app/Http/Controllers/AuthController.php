@@ -16,7 +16,7 @@ class AuthController extends Controller
 
         // Akun hardcoded
         $validEmail = 'admintobalink@gmail.com';
-        $hashedPassword = '$2y$10$i8odTTQsCxfGGO9hPcDlo.j7f5R3Z61MWaLTMM0WZNh7QSSF5LjyK'; // hasil dari tinker
+        $hashedPassword = '$2y$10$1/XM8D4dqbRQ1KuoLbZMVOjy6.guiHeITxb1oBdU9nLEgi4t5WUGu'; // Hash untuk 'admin123'
 
         if ($request->email === $validEmail && Hash::check($request->password, $hashedPassword)) {
             return response()->json([

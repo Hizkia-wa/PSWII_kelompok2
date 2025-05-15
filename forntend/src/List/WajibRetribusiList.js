@@ -38,7 +38,7 @@ function WajibRetribusiList() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2 style={{ borderLeft: '5px solid #2a3c85', paddingLeft: '10px' }}>Daftar Wajib Retribusi</h2>
         <button
-          onClick={() => navigate('/wajibretribusi/create')}
+          onClick={() => navigate('/wajibretribusi/tambah')}
           style={{ padding: '8px 16px', background: '#2a3c85', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
         >
           + Tambah
