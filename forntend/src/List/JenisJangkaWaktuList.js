@@ -223,21 +223,21 @@ const DaftarJenisJangkaWaktu = () => {
                           className="btn btn-sm btn-info"
                           style={{ ...styles.actionButton, backgroundColor: "#17a2b8", borderColor: "#17a2b8", color: "#fff" }}
                         >
-                          <span>🔍</span> Detail
+                          <span>👁️</span>
                         </Link>
                         <Link
                           to={`/JenisJangkaWaktu/edit/${item.idJenisJangkaWaktu}`}
                           className="btn btn-sm btn-warning"
                           style={{...styles.actionButton, ...styles.editButton}}
                         >
-                          <span>✏️</span> Edit
+                          <span>✏️</span>
                         </Link>
                         <button
                           className="btn btn-sm btn-danger"
                           style={{...styles.actionButton, ...styles.deleteButton}}
                           onClick={() => handleDelete(item.idJenisJangkaWaktu)}
                         >
-                          <span>🗑️</span> Hapus
+                          <span>🗑️</span>
                         </button>
                       </div>
                     </td>
