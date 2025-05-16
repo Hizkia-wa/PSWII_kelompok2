@@ -26,13 +26,15 @@ const UserList = () => {
 
   return (
     <div className="app-container">
-     
+      {/* <Sidebar /> */}
+
       <div className="content-container">
         <div className="user-list-container">
           <div className="header-container">
             <h2 className="page-title">Daftar User</h2>
             <Link to="/user/tambah" className="add-button">+ Tambah User</Link>
           </div>
+
           <div className="table-container">
             <table className="data-table">
               <thead>
@@ -55,15 +57,30 @@ const UserList = () => {
                       </span>
                     </td>
                     <td>{u.keterangan}</td>
-                    <td className="action-buttons">
-                      <Link to={`/user/detail/${u.userId}`} className="detail-button">Detail</Link>
-                      <Link to={`/user/edit/${u.userId}`} className="edit-button">Edit</Link>
-                      <button 
-                        onClick={() => handleDelete(u.userId)} 
-                        className="delete-button"
-                      >
-                        Hapus
-                      </button>
+                    <td>
+                      <div className="action-buttons">
+                        <Link
+                          to={`/user/detail/${u.userId}`}
+                          className="view-button"
+                          title="Lihat Detail"
+                        >
+                          <span className="action-icon">👁️</span>
+                        </Link>
+                        <Link
+                          to={`/user/edit/${u.userId}`}
+                          className="edit-button"
+                          title="Edit Data"
+                        >
+                          <span className="action-icon">✏️</span>
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(u.userId)}
+                          className="delete-button"
+                          title="Hapus Data"
+                        >
+                          <span className="action-icon">🗑️</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -72,8 +89,8 @@ const UserList = () => {
           </div>
         </div>
       </div>
+
       <style jsx>{`
-        /* Global styles */
         * {
           margin: 0;
           padding: 0;
@@ -87,14 +104,12 @@ const UserList = () => {
           background-color: #f5f7fa;
         }
 
-        /* Main content area */
         .content-container {
           flex: 1;
           padding: 20px;
           overflow-y: auto;
         }
 
-        /* User list container */
         .user-list-container {
           background-color: white;
           border-radius: 8px;
@@ -102,7 +117,6 @@ const UserList = () => {
           overflow: hidden;
         }
 
-        /* Header with title and add button */
         .header-container {
           display: flex;
           justify-content: space-between;
@@ -118,8 +132,7 @@ const UserList = () => {
         }
 
         .add-button {
-          display: inline-block;
-          background-color: #1e40af; /* Deep blue to match sidebar */
+          background-color: #1e40af;
           color: white;
           padding: 10px 16px;
           border-radius: 4px;
@@ -132,7 +145,6 @@ const UserList = () => {
           background-color: #2563eb;
         }
 
-        /* Table styles */
         .table-container {
           padding: 0 0 20px 0;
           overflow-x: auto;
@@ -164,7 +176,6 @@ const UserList = () => {
           background-color: #f8fafc;
         }
 
-        /* Status badges */
         .status-badge {
           display: inline-block;
           padding: 4px 12px;
@@ -183,40 +194,56 @@ const UserList = () => {
           color: #b91c1c;
         }
 
-        /* Action buttons */
         .action-buttons {
           display: flex;
           gap: 8px;
         }
 
-        .edit-button {
-          display: inline-block;
-          padding: 6px 12px;
-          background-color: #3b82f6;
-          color: white;
+        .view-button,
+        .edit-button,
+        .delete-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
           border-radius: 4px;
-          text-decoration: none;
-          font-size: 13px;
           transition: background-color 0.2s;
+        }
+
+        .view-button {
+          background-color: #0ea5e9;
+          color: white;
+          text-decoration: none;
+        }
+
+        .view-button:hover {
+          background-color: #0284c7;
+        }
+
+        .edit-button {
+          background-color: #f59e0b;
+          color: white;
+          text-decoration: none;
         }
 
         .edit-button:hover {
-          background-color: #2563eb;
+          background-color: #d97706;
         }
 
         .delete-button {
-          padding: 6px 12px;
           background-color: #ef4444;
           color: white;
           border: none;
-          border-radius: 4px;
           cursor: pointer;
-          font-size: 13px;
-          transition: background-color 0.2s;
         }
 
         .delete-button:hover {
           background-color: #dc2626;
+        }
+
+        .action-icon {
+          font-size: 16px;
         }
       `}</style>
     </div>
