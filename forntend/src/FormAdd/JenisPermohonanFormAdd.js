@@ -82,31 +82,30 @@ const CreatePostForm = () => {
         credentials: 'include' // Penting untuk mengirim cookies jika menggunakan cookie-based auth
       });
 
-      if (!response.ok) {
-        // Jika server mengembalikan error
-        const errorData = await response.json();
-        
-        if (response.status === 401 || response.status === 403) {
-          alert("Sesi Anda telah berakhir. Silakan login kembali.");
-          // Redirect ke halaman login
-          window.location.href = "/login";
-          return;
-        } 
-        
-        if (errorData.errors) {
-          setErrors(errorData.errors);
-        } else {
-          throw new Error(errorData.message || "Terjadi kesalahan saat menyimpan data");
-        }
-      } else {
-        // Jika berhasil
-        const data = await response.json();
-        setSuccessMessage("Data berhasil ditambahkan!");
-        setForm({ jenisPermohonan: "", parentId: "", keterangan: "" });
+if (!response.ok) {
+  const errorData = await response.json();
+  if (response.status === 401 || response.status === 403) {
+    alert("Sesi Anda telah berakhir. Silakan login kembali.");
+    window.location.href = "/login";
+    return;
+  }
+
+  if (errorData.errors) {
+    setErrors(errorData.errors);
+  } else {
+    throw new Error(errorData.message || "Terjadi kesalahan saat menyimpan data");
+  }
+} else {
+  const data = await response.json();
+  setSuccessMessage("Data berhasil ditambahkan!");
+  setTimeout(() => {
+    window.location.href = "/jenispermohonan";
+  }, 1000);
+ // delay 1 detik biar user sempat lihat pesan sukses
         console.log("Data berhasil disimpan:", data);
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error submit ting form:", error);
       alert("Gagal terhubung ke server. Periksa koneksi internet Anda.");
     } finally {
       setIsSubmitting(false);
@@ -327,7 +326,7 @@ const CreatePostForm = () => {
               type="number"
               id="parentId"
               name="parentId"
-              value={form.parentId}
+              value={form.parentId || ""}
               onChange={handleChange}
               style={styles.input}
               disabled={isSubmitting}
