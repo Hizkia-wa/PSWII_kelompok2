@@ -22,9 +22,9 @@ const EditPostForm = () => {
         .get(`${API}/${id}`)
         .then((res) => {
           setForm({
-            jenisPermohonan: res.data.jenisPermohonan || "",
-            parentId: res.data.parentId || "",
-            keterangan: res.data.keterangan || "",
+            jenisPermohonan: res.data.data.jenisPermohonan || "",
+            parentId: res.data.data.parentId || "",
+            keterangan: res.data.data.keterangan || "",
           });
           setLoading(false);
         })
