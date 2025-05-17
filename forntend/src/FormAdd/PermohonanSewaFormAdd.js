@@ -7,7 +7,7 @@ const PermohonanSewaFormAdd = () => {
   const [loading, setLoading] = useState(false);
   const [jenisPermohonanOptions, setJenisPermohonanOptions] = useState([]);
   const [tarifOptions, setTarifOptions] = useState([]);
-  
+
   const [form, setForm] = useState({
     idJenisPermohonan: '',
     nomorSuratPermohonan: '',
@@ -19,28 +19,26 @@ const PermohonanSewaFormAdd = () => {
   });
 
   useEffect(() => {
-    // Fetch jenis permohonan options
-    const fetchJenisPermohonan = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/jenis-permohonan');
-        setJenisPermohonanOptions(res.data.data || []);
+        const [resJenis, resTarif] = await Promise.all([
+          axios.get('http://localhost:8000/api/jenis-permohonan'),
+          axios.get('http://localhost:8000/api/tarif-objek-retribusi'),
+        ]);
+
+        // Debug: tampilkan respons
+        console.log("RESPON JENIS PERMOHONAN:", resJenis.data.data);
+        console.log("RESPON TARIF:", resTarif.data.data);
+
+        setJenisPermohonanOptions(resJenis.data.data || []);
+        setTarifOptions(resTarif.data.data || []);
       } catch (error) {
-        console.error('Error fetching jenis permohonan:', error);
+        console.error('Gagal mengambil data:', error);
+        alert('Terjadi kesalahan saat mengambil data. Coba ulangi nanti.');
       }
     };
 
-    // Fetch tarif options
-    const fetchTarifOptions = async () => {
-      try {
-        const res = await axios.get('http://localhost:8000/api/tarif-objek');
-        setTarifOptions(res.data.data || []);
-      } catch (error) {
-        console.error('Error fetching tarif options:', error);
-      }
-    };
-
-    fetchJenisPermohonan();
-    fetchTarifOptions();
+    fetchData();
   }, []);
 
   const handleChange = (e) => {
@@ -54,8 +52,9 @@ const PermohonanSewaFormAdd = () => {
       await axios.post('http://localhost:8000/api/permohonan-sewa', form);
       navigate('/permohonansewa');
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Gagal menyimpan permohonan:', error);
       alert('Gagal menyimpan data. Silakan coba lagi.');
+    } finally {
       setLoading(false);
     }
   };
@@ -183,9 +182,7 @@ const PermohonanSewaFormAdd = () => {
     <div style={styles.container}>
       <div style={styles.header}>
         <h2 style={styles.title}>Tambah Permohonan Sewa</h2>
-        <Link to="/permohonansewa" style={styles.backButton}>
-          Kembali
-        </Link>
+        <Link to="/permohonansewa" style={styles.backButton}>Kembali</Link>
       </div>
 
       <div style={styles.card}>
@@ -202,14 +199,17 @@ const PermohonanSewaFormAdd = () => {
                   required
                 >
                   <option value="">Pilih Jenis Permohonan</option>
-                  {jenisPermohonanOptions.map(option => (
-                    <option key={option.idJenisPermohonan} value={option.idJenisPermohonan}>
-                      {option.namaJenisPermohonan}
-                    </option>
-                  ))}
+                    {jenisPermohonanOptions.map(option => (
+                      <option 
+                        key={option.id} 
+                        value={option.id}
+                      >
+                        {option.jenisPermohonan}
+                      </option>
+                    ))}
                 </select>
               </div>
-              
+
               <div style={styles.formGroup}>
                 <label style={styles.label}>Nomor Surat Permohonan</label>
                 <input 
@@ -221,7 +221,7 @@ const PermohonanSewaFormAdd = () => {
                   required
                 />
               </div>
-              
+
               <div style={styles.formGroup}>
                 <label style={styles.label}>Tanggal Pengajuan</label>
                 <input 
@@ -234,7 +234,7 @@ const PermohonanSewaFormAdd = () => {
                 />
               </div>
             </div>
-            
+
             <div style={styles.formColumn}>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Nama Pemohon</label>
@@ -247,7 +247,7 @@ const PermohonanSewaFormAdd = () => {
                   required
                 />
               </div>
-              
+
               <div style={styles.formGroup}>
                 <label style={styles.label}>Alamat Pemohon</label>
                 <textarea 
@@ -261,7 +261,7 @@ const PermohonanSewaFormAdd = () => {
               </div>
             </div>
           </div>
-          
+
           <div style={styles.formRow}>
             <div style={styles.formColumn}>
               <div style={styles.formGroup}>
@@ -282,7 +282,7 @@ const PermohonanSewaFormAdd = () => {
                 </select>
               </div>
             </div>
-            
+
             <div style={styles.formColumn}>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Keterangan</label>
@@ -296,12 +296,10 @@ const PermohonanSewaFormAdd = () => {
               </div>
             </div>
           </div>
-          
+
           <div style={styles.buttonsContainer}>
             <Link to="/permohonansewa">
-              <button type="button" style={styles.cancelButton}>
-                Batal
-              </button>
+              <button type="button" style={styles.cancelButton}>Batal</button>
             </Link>
             <button 
               type="submit" 
