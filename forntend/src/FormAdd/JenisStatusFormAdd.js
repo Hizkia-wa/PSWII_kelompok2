@@ -18,7 +18,7 @@ const AddJenisStatus = () => {
       .post(API, form)
       .then(() => {
         alert("Data berhasil ditambahkan.");
-        navigate("/");
+        navigate("/jenisstatus"); // Diubah dari "/" menjadi "/jenisstatus"
       })
       .catch((err) => {
         console.error("Gagal menambahkan:", err);
@@ -231,7 +231,7 @@ const AddJenisStatus = () => {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/jenisstatus")} // Diubah dari "/" menjadi "/jenisstatus"
             >
               <span className="btn-icon">✖️</span>
               Batal
