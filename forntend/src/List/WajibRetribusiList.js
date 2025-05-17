@@ -34,56 +34,173 @@ function WajibRetribusiList() {
   }, []);
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ borderLeft: '5px solid #2a3c85', paddingLeft: '10px' }}>Daftar Wajib Retribusi</h2>
-        <button
+    <div className="container">
+      <div className="header">
+        <div className="title-container">
+          <div className="title-bar"></div>
+          <h2 className="title">Daftar Wajib Retribusi</h2>
+        </div>
+        <button 
+          className="btn-tambah"
           onClick={() => navigate('/wajibretribusi/tambah')}
-          style={{ padding: '8px 16px', background: '#2a3c85', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
         >
-          + Tambah
+          + Tambah Data
         </button>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
-        <thead>
-          <tr style={{ background: '#2a3c85', color: 'white' }}>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>NIK</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Nama</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Alamat</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.idWajibRetribusi}>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{item.NIK}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{item.namaWajibRetribusi}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{item.alamat}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>
-                <button
-                  onClick={() => navigate(`/wajibretribusi/show/${item.idWajibRetribusi}`)}
-                  style={{ marginRight: '5px', background: '#4caf50', color: 'white', border: 'none', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer' }}
-                >
-                  👁️
-                </button>
-                <button
-                  onClick={() => navigate(`/wajibretribusi/edit/${item.idWajibRetribusi}`)}
-                  style={{ marginRight: '5px', background: '#fbc02d', color: 'white', border: 'none', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer' }}
-                >
-                  ✏️
-                </button>
-                <button
-                  onClick={() => handleDelete(item.idWajibRetribusi)}
-                  style={{ background: '#e53935', color: 'white', border: 'none', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer' }}
-                >
-                  🗑️
-                </button>
-              </td>
+      <div className="table-container">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>NIK</th>
+              <th>Nama</th>
+              <th>Alamat</th>
+              <th>Aksi</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((item) => (
+              <tr key={item.idWajibRetribusi}>
+                <td>{item.NIK}</td>
+                <td>{item.namaWajibRetribusi}</td>
+                <td>{item.alamat}</td>
+                <td className="action-buttons">
+                  <button 
+                    className="btn-detail"
+                    onClick={() => navigate(`/wajibretribusi/show/${item.idWajibRetribusi}`)}
+                  >
+                    Detail
+                  </button>
+                  <button 
+                    className="btn-edit"
+                    onClick={() => navigate(`/wajibretribusi/edit/${item.idWajibRetribusi}`)}
+                  >
+                    Edit
+                  </button>
+                  <button 
+                    className="btn-hapus"
+                    onClick={() => handleDelete(item.idWajibRetribusi)}
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="pagination-info">
+        Menampilkan {data.length} dari {data.length} data
+      </div>
+
+      <style jsx>{`
+        .container {
+          padding: 20px;
+          font-family: Arial, sans-serif;
+        }
+        
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+        
+        .title-container {
+          display: flex;
+          align-items: center;
+        }
+        
+        .title-bar {
+          width: 5px;
+          height: 30px;
+          background-color: #2a3c85;
+          margin-right: 10px;
+        }
+        
+        .title {
+          font-size: 1.5rem;
+          margin: 0;
+          color: #333;
+        }
+        
+        .btn-tambah {
+          background-color: #2a3c85;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          padding: 8px 16px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+        
+        .table-container {
+          background-color: white;
+          border-radius: 4px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+        }
+        
+        .data-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        
+        .data-table th {
+          background-color: #2a3c85;
+          color: white;
+          text-align: left;
+          padding: 12px 15px;
+        }
+        
+        .data-table td {
+          padding: 12px 15px;
+          border-bottom: 1px solid #eee;
+        }
+        
+        .data-table tr:last-child td {
+          border-bottom: none;
+        }
+        
+        .action-buttons {
+          display: flex;
+          gap: 5px;
+        }
+        
+        .btn-detail {
+          background-color: #2196F3;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          padding: 6px 12px;
+          cursor: pointer;
+        }
+        
+        .btn-edit {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          padding: 6px 12px;
+          cursor: pointer;
+        }
+        
+        .btn-hapus {
+          background-color: #F44336;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          padding: 6px 12px;
+          cursor: pointer;
+        }
+        
+        .pagination-info {
+          margin-top: 15px;
+          text-align: right;
+          color: #666;
+          font-size: 0.9rem;
+        }
+      `}</style>
     </div>
   );
 }

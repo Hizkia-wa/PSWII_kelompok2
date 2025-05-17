@@ -577,7 +577,29 @@ export default function Sidebar() {
                 >
                   Jenis Objek Retribusi
                 </div>
+
               </Link>
+
+
+
+              <Link to="/objekretribusi" style={styles.link}>
+                <div 
+                  style={{
+                    ...styles.submenuItem,
+                    position: 'relative'
+                  }}
+                  onMouseEnter={(e) => handleSubmenuItemHover(e, true)}
+                  onMouseLeave={(e) => handleSubmenuItemHover(e, false)}
+                  onClick={createRipple}
+                >
+                   Objek Retribusi
+                </div>
+
+              </Link>
+
+
+
+
               <Link to="/lokasiobjekretribusi" style={styles.link}>
                 <div 
                   style={{
@@ -638,7 +660,7 @@ export default function Sidebar() {
           
           {expandedMenus.status && (
             <div style={styles.submenu}>
-              <Link to="/datastatus" style={styles.link}>
+              <Link to="/status" style={styles.link}>
                 <div 
                   style={{
                     ...styles.submenuItem,
