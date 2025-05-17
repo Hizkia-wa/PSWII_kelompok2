@@ -564,19 +564,7 @@ export default function Sidebar() {
           
           {expandedMenus.objekRetribusi && (
             <div style={styles.submenu}>
-              <Link to="/dataobjekretribusi" style={styles.link}>
-                <div 
-                  style={{
-                    ...styles.submenuItem,
-                    position: 'relative'
-                  }}
-                  onMouseEnter={(e) => handleSubmenuItemHover(e, true)}
-                  onMouseLeave={(e) => handleSubmenuItemHover(e, false)}
-                  onClick={createRipple}
-                >
-                  Data Objek Retribusi
-                </div>
-              </Link>
+      
               <Link to="/jenisobjekretribusi" style={styles.link}>
                 <div 
                   style={{

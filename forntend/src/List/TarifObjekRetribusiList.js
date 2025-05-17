@@ -182,7 +182,7 @@ const WajibRetribusiList = () => {
             <div className="blue-bar"></div>
             <h2>Daftar Wajib Retribusi</h2>
           </div>
-          <Link to="/wajib-retribusi/add" className="add-button">
+          <Link to="/tarifobjekretribusi/add" className="add-button">
             <span className="plus-icon">+</span> Tambah Wajib Retribusi
           </Link>
         </div>
