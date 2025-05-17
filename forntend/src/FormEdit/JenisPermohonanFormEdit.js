@@ -48,7 +48,7 @@ const EditPostForm = () => {
       .put(`${API}/${id}`, form)
       .then(() => {
         alert("Data berhasil diperbarui.");
-        navigate("/");
+        navigate("/jenispermohonan");
       })
       .catch((error) => {
         if (error.response && error.response.data.errors) {
