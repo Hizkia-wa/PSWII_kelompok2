@@ -25,24 +25,25 @@ function FormEditObjekRetribusi({ id, onSuccess }) {
   useEffect(() => {
     axios.get(`http://localhost:8000/api/objek-retribusi/${id}`)
       .then((res) => {
+        const data = res.data.data;
         setFormData({
-          idLokasiObjekRetribusi: res.data.data.idLokasiObjekRetribusi,
-          idJenisObjekRetribusi: res.data.data.idJenisObjekRetribusi,
-          kodeObjekRetribusi: res.data.data.kodeObjekRetribusi,
-          noBangunan: res.data.data.noBangunan,
-          jumlahLantai: res.data.data.jumlahLantai,
-          objekRetribusi: res.data.data.objekRetribusi,
-          panjangTanah: res.data.data.panjangTanah,
-          lebarTanah: res.data.data.lebarTanah,
-          luasTanah: res.data.data.luasTanah,
-          panjangBangunan: res.data.data.panjangBangunan,
-          lebarBangunan: res.data.data.lebarBangunan,
-          luasBangunan: res.data.data.luasBangunan,
-          alamat: res.data.data.alamat,
-          latitude: res.data.data.latitude,
-          longitude: res.data.data.longitude,
-          keterangan: res.data.data.keterangan,
-          gambarDenahTanah: res.data.data.gambarDenahTanah
+          idLokasiObjekRetribusi: data.idLokasiObjekRetribusi,
+          idJenisObjekRetribusi: data.idJenisObjekRetribusi,
+          kodeObjekRetribusi: data.kodeObjekRetribusi,
+          noBangunan: data.noBangunan,
+          jumlahLantai: data.jumlahLantai,
+          objekRetribusi: data.objekRetribusi,
+          panjangTanah: data.panjangTanah,
+          lebarTanah: data.lebarTanah,
+          luasTanah: data.luasTanah,
+          panjangBangunan: data.panjangBangunan,
+          lebarBangunan: data.lebarBangunan,
+          luasBangunan: data.luasBangunan,
+          alamat: data.alamat,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          keterangan: data.keterangan,
+          gambarDenahTanah: data.gambarDenahTanah
         });
       })
       .catch((err) => console.error('Gagal mengambil data:', err));
@@ -53,17 +54,20 @@ function FormEditObjekRetribusi({ id, onSuccess }) {
     setFormData((prev) => {
       const newData = { ...prev, [name]: value };
 
-      // Otomatis hitung luas tanah dan luas bangunan
       if (name === 'panjangTanah' || name === 'lebarTanah') {
-        const panjang = name === 'panjangTanah' ? value : formData.panjangTanah;
-        const lebar = name === 'lebarTanah' ? value : formData.lebarTanah;
-        newData.luasTanah = parseFloat(panjang) * parseFloat(lebar);
+        const panjang = name === 'panjangTanah' ? parseFloat(value) : parseFloat(formData.panjangTanah);
+        const lebar = name === 'lebarTanah' ? parseFloat(value) : parseFloat(formData.lebarTanah);
+        if (!isNaN(panjang) && !isNaN(lebar)) {
+          newData.luasTanah = panjang * lebar;
+        }
       }
 
       if (name === 'panjangBangunan' || name === 'lebarBangunan') {
-        const panjang = name === 'panjangBangunan' ? value : formData.panjangBangunan;
-        const lebar = name === 'lebarBangunan' ? value : formData.lebarBangunan;
-        newData.luasBangunan = parseFloat(panjang) * parseFloat(lebar);
+        const panjang = name === 'panjangBangunan' ? parseFloat(value) : parseFloat(formData.panjangBangunan);
+        const lebar = name === 'lebarBangunan' ? parseFloat(value) : parseFloat(formData.lebarBangunan);
+        if (!isNaN(panjang) && !isNaN(lebar)) {
+          newData.luasBangunan = panjang * lebar;
+        }
       }
 
       return newData;
@@ -75,86 +79,112 @@ function FormEditObjekRetribusi({ id, onSuccess }) {
     try {
       await axios.put(`http://localhost:8000/api/objek-retribusi/${id}`, formData);
       alert('Data berhasil diperbarui!');
-      onSuccess();
+      if (onSuccess) onSuccess();
     } catch (err) {
       console.error('Gagal memperbarui data:', err);
       alert('Terjadi kesalahan saat memperbarui data.');
     }
   };
 
-  if (!formData) return <p>Memuat data...</p>;
+  const inputStyle = {
+    width: '100%',
+    padding: '10px',
+    marginTop: '5px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    fontSize: '14px',
+  };
+
+  const labelStyle = {
+    marginBottom: '10px',
+    fontWeight: 'bold',
+    display: 'block',
+  };
+
+  const textareaStyle = {
+    ...inputStyle,
+    minHeight: '60px',
+  };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-      <label>
-        Kode Objek Retribusi:
-        <input name="kodeObjekRetribusi" value={formData.kodeObjekRetribusi} onChange={handleChange} required />
-      </label>
-      <label>
-        Nama Objek:
-        <input name="objekRetribusi" value={formData.objekRetribusi} onChange={handleChange} required />
-      </label>
-      <label>
-        No Bangunan:
-        <input name="noBangunan" value={formData.noBangunan} onChange={handleChange} />
-      </label>
-      <label>
-        Jumlah Lantai:
-        <input name="jumlahLantai" type="number" value={formData.jumlahLantai} onChange={handleChange} required />
-      </label>
-      <label>
-        Panjang Tanah:
-        <input name="panjangTanah" type="number" value={formData.panjangTanah} onChange={handleChange} required />
-      </label>
-      <label>
-        Lebar Tanah:
-        <input name="lebarTanah" type="number" value={formData.lebarTanah} onChange={handleChange} required />
-      </label>
-      <label>
-        Luas Tanah:
-        <input name="luasTanah" type="number" value={formData.luasTanah} readOnly />
-      </label>
-      <label>
-        Panjang Bangunan:
-        <input name="panjangBangunan" type="number" value={formData.panjangBangunan} onChange={handleChange} required />
-      </label>
-      <label>
-        Lebar Bangunan:
-        <input name="lebarBangunan" type="number" value={formData.lebarBangunan} onChange={handleChange} required />
-      </label>
-      <label>
-        Luas Bangunan:
-        <input name="luasBangunan" type="number" value={formData.luasBangunan} readOnly />
-      </label>
-      <label>
-        Alamat:
-        <input name="alamat" value={formData.alamat} onChange={handleChange} required />
-      </label>
-      <label>
-        ID Jenis Objek Retribusi:
-        <input name="idJenisObjekRetribusi" value={formData.idJenisObjekRetribusi} onChange={handleChange} required />
-      </label>
-      <label>
-        ID Lokasi Objek Retribusi:
-        <input name="idLokasiObjekRetribusi" value={formData.idLokasiObjekRetribusi} onChange={handleChange} required />
-      </label>
-      <label>
-        Latitude:
-        <input name="latitude" value={formData.latitude} onChange={handleChange} />
-      </label>
-      <label>
-        Longitude:
-        <input name="longitude" value={formData.longitude} onChange={handleChange} />
-      </label>
-      <label>
-        Keterangan:
-        <textarea name="keterangan" value={formData.keterangan} onChange={handleChange} />
-      </label>
-      <label>
-        Gambar Denah Tanah (URL):
-        <input name="gambarDenahTanah" value={formData.gambarDenahTanah} onChange={handleChange} />
-      </label>
-      <button type="submit">Update</button>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        maxWidth: '650px',
+        margin: '20px auto',
+        padding: '25px',
+        border: '1px solid #ddd',
+        borderRadius: '10px',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+        fontFamily: 'Segoe UI, sans-serif',
+      }}
+    >
+      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Edit Objek Retribusi</h2>
+
+      {[
+        { label: 'Kode Objek Retribusi', name: 'kodeObjekRetribusi' },
+        { label: 'Nama Objek', name: 'objekRetribusi' },
+        { label: 'No Bangunan', name: 'noBangunan' },
+        { label: 'Jumlah Lantai', name: 'jumlahLantai', type: 'number' },
+        { label: 'Panjang Tanah', name: 'panjangTanah', type: 'number' },
+        { label: 'Lebar Tanah', name: 'lebarTanah', type: 'number' },
+        { label: 'Luas Tanah', name: 'luasTanah', type: 'number', readOnly: true },
+        { label: 'Panjang Bangunan', name: 'panjangBangunan', type: 'number' },
+        { label: 'Lebar Bangunan', name: 'lebarBangunan', type: 'number' },
+        { label: 'Luas Bangunan', name: 'luasBangunan', type: 'number', readOnly: true },
+        { label: 'Alamat', name: 'alamat' },
+        { label: 'ID Jenis Objek Retribusi', name: 'idJenisObjekRetribusi' },
+        { label: 'ID Lokasi Objek Retribusi', name: 'idLokasiObjekRetribusi' },
+        { label: 'Latitude', name: 'latitude' },
+        { label: 'Longitude', name: 'longitude' },
+        { label: 'Gambar Denah Tanah (URL)', name: 'gambarDenahTanah' },
+      ].map(({ label, name, type = 'text', readOnly = false }) => (
+        <div key={name} style={{ marginBottom: '15px' }}>
+          <label style={labelStyle}>{label}:</label>
+          <input
+            name={name}
+            type={type}
+            value={formData[name]}
+            onChange={handleChange}
+            readOnly={readOnly}
+            style={{
+              ...inputStyle,
+              backgroundColor: readOnly ? '#e9ecef' : '#fff',
+              cursor: readOnly ? 'not-allowed' : 'auto',
+            }}
+          />
+        </div>
+      ))}
+
+      <div style={{ marginBottom: '15px' }}>
+        <label style={labelStyle}>Keterangan:</label>
+        <textarea
+          name="keterangan"
+          value={formData.keterangan}
+          onChange={handleChange}
+          style={textareaStyle}
+        />
+      </div>
+
+      <button
+        type="submit"
+        style={{
+          padding: '12px',
+          backgroundColor: '#007bff',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          width: '100%',
+          marginTop: '10px',
+        }}
+        onMouseOver={(e) => (e.target.style.backgroundColor = '#0056b3')}
+        onMouseOut={(e) => (e.target.style.backgroundColor = '#007bff')}
+      >
+        Update
+      </button>
     </form>
   );
 }
