@@ -1,10 +1,11 @@
 // src/pages/TarifObjekRetribusi/TarifAdd.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 const TarifObjekRetribusiFormAdd = () => {
   const navigate = useNavigate();
+
   const [form, setForm] = useState({
     idObjekRetribusi: '',
     idJenisJangkaWaktu: '',
@@ -12,11 +13,36 @@ const TarifObjekRetribusiFormAdd = () => {
     namaPenilai: '',
     nominalTarif: ''
   });
-  
+
+  const [objekRetribusiOptions, setObjekRetribusiOptions] = useState([]);
+  const [jenisJangkaWaktuOptions, setJenisJangkaWaktuOptions] = useState([]);
+  const [loadingOptions, setLoadingOptions] = useState(true);
+  const [errorLoading, setErrorLoading] = useState(null);
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const [objekRes, jangkaRes] = await Promise.all([
+          axios.get('http://localhost:8000/api/objek-retribusi'),
+          axios.get('http://localhost:8000/api/jenis-jangka-waktu')
+        ]);
+        setObjekRetribusiOptions(objekRes.data.data || []);
+        setJenisJangkaWaktuOptions(jangkaRes.data.data || []);
+        setLoadingOptions(false);
+      } catch (error) {
+        console.error('Gagal fetch opsi dropdown:', error);
+        setErrorLoading('Gagal memuat data dropdown');
+        setLoadingOptions(false);
+      }
+    };
+
+    fetchOptions();
+  }, []);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,7 +54,10 @@ const TarifObjekRetribusiFormAdd = () => {
       alert('Terjadi kesalahan saat menyimpan data.');
     }
   };
-  
+
+  if (loadingOptions) return <div>Loading data dropdown...</div>;
+  if (errorLoading) return <div style={{ color: 'red' }}>{errorLoading}</div>;
+
   return (
     <div style={styles.container}>
       <div style={styles.headerContainer}>
@@ -37,44 +66,59 @@ const TarifObjekRetribusiFormAdd = () => {
           <h2 style={styles.heading}>Tambah Tarif Objek Retribusi</h2>
         </div>
       </div>
-      
+
       <p style={styles.instructions}>
         Silakan isi formulir di bawah ini untuk menambahkan tarif objek retribusi baru.
       </p>
-      
+
       <div style={styles.divider}></div>
-      
+
       <form onSubmit={handleSubmit} style={styles.form}>
+
+        {/* ✅ Perbaikan dropdown Objek Retribusi */}
         <div style={styles.formGroup}>
           <label style={styles.label}>
             Objek Retribusi <span style={styles.required}>*</span>
           </label>
-          <input
-            type="text"
+          <select
             name="idObjekRetribusi"
-            placeholder="Masukkan objek retribusi"
+            value={form.idObjekRetribusi}
             onChange={handleChange}
             required
             style={styles.input}
-          />
-          <div style={styles.helperText}>Contoh: Kios Pasar, Parkir Mall, Terminal Bus</div>
+          >
+            <option value="">Pilih Objek Retribusi</option>
+              {objekRetribusiOptions.map((objek) => (
+                <option key={objek.idObjekRetribusi} value={objek.idObjekRetribusi}>
+                  {objek.objekRetribusi}
+                </option>
+              ))}
+          </select>
+          <div style={styles.helperText}>Pilih objek retribusi yang tersedia</div>
         </div>
-        
+
+        {/* Dropdown Jenis Jangka Waktu */}
         <div style={styles.formGroup}>
           <label style={styles.label}>
             Jenis Jangka Waktu <span style={styles.required}>*</span>
           </label>
-          <input
-            type="text"
+          <select
             name="idJenisJangkaWaktu"
-            placeholder="Masukkan jenis jangka waktu"
+            value={form.idJenisJangkaWaktu}
             onChange={handleChange}
             required
             style={styles.input}
-          />
-          <div style={styles.helperText}>Contoh: Harian, Bulanan, Tahunan</div>
+          >
+            <option value="">Pilih Jenis Jangka Waktu</option>
+            {jenisJangkaWaktuOptions.map((jangka) => (
+              <option key={jangka.idJenisJangkaWaktu} value={jangka.idJenisJangkaWaktu}>
+                {jangka.jenisJangkaWaktu}
+              </option>
+            ))}
+          </select>
+          <div style={styles.helperText}>Pilih jenis jangka waktu yang sesuai</div>
         </div>
-        
+
         <div style={styles.formGroup}>
           <label style={styles.label}>
             Tanggal Dinilai <span style={styles.required}>*</span>
@@ -82,12 +126,13 @@ const TarifObjekRetribusiFormAdd = () => {
           <input
             type="date"
             name="tanggalDinilai"
+            value={form.tanggalDinilai}
             onChange={handleChange}
             required
             style={styles.input}
           />
         </div>
-        
+
         <div style={styles.formGroup}>
           <label style={styles.label}>
             Nama Penilai <span style={styles.required}>*</span>
@@ -96,12 +141,13 @@ const TarifObjekRetribusiFormAdd = () => {
             type="text"
             name="namaPenilai"
             placeholder="Masukkan nama penilai"
+            value={form.namaPenilai}
             onChange={handleChange}
             required
             style={styles.input}
           />
         </div>
-        
+
         <div style={styles.formGroup}>
           <label style={styles.label}>
             Nominal Tarif <span style={styles.required}>*</span>
@@ -110,13 +156,14 @@ const TarifObjekRetribusiFormAdd = () => {
             type="number"
             name="nominalTarif"
             placeholder="Masukkan nominal tarif"
+            value={form.nominalTarif}
             onChange={handleChange}
             required
             style={styles.input}
           />
           <div style={styles.helperText}>Dalam satuan Rupiah (Rp)</div>
         </div>
-        
+
         <div style={styles.formActions}>
           <button type="submit" style={styles.saveButton}>
             <span style={styles.saveIcon}>💾</span> Simpan Data
