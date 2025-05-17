@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const LokasiObjekRetribusiFormAdd = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const [formData, setFormData] = useState({
     lokasiObjekRetribusi: '',
     keterangan: ''
@@ -22,8 +23,13 @@ const LokasiObjekRetribusiFormAdd = () => {
     axios.post('http://localhost:8000/api/lokasi-objek-retribusi', formData)
       .then(response => {
         setLoading(false);
-        alert('Data berhasil ditambahkan!');
-        navigate('/lokasiobjekretribusi'); // Redirect ke halaman list
+
+        setShowNotification(true);
+        
+     
+        setTimeout(() => {
+          navigate('/lokasiobjekretribusi'); 
+        }, 2000); 
       })
       .catch(error => {
         setLoading(false);
@@ -218,6 +224,43 @@ const LokasiObjekRetribusiFormAdd = () => {
             100% { transform: rotate(360deg); }
           }
           
+          /* Success notification */
+          .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out forwards;
+          }
+          
+          .notification-icon {
+            font-size: 20px;
+          }
+          
+          .notification-text {
+            font-size: 16px;
+            font-weight: 500;
+          }
+          
+          @keyframes slideIn {
+            0% {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+            100% {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+          
           /* Responsive styling */
           @media (max-width: 768px) {
             .form-card {
@@ -238,6 +281,16 @@ const LokasiObjekRetribusiFormAdd = () => {
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
+        </div>
+      )}
+
+      {/* Success Notification */}
+      {showNotification && (
+        <div className="notification">
+          <span className="notification-icon">✓</span>
+          <span className="notification-text">
+            Data berhasil disimpan! Mengalihkan ke halaman daftar...
+          </span>
         </div>
       )}
 

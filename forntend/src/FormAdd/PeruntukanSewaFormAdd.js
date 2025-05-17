@@ -17,7 +17,7 @@ function PeruntukanSewaFormAdd() {
         keterangan
       });
       alert('Berhasil menambahkan data!');
-      navigate('/peruntukan-sewa');
+      navigate('/peruntukansewa');
     } catch (err) {
       console.error('Gagal menambahkan data:', err);
     }
