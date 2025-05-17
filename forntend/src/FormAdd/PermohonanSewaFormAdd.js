@@ -7,7 +7,6 @@ const PermohonanSewaFormAdd = () => {
   const [loading, setLoading] = useState(false);
   const [jenisPermohonanOptions, setJenisPermohonanOptions] = useState([]);
   const [tarifOptions, setTarifOptions] = useState([]);
-
   const [form, setForm] = useState({
     idJenisPermohonan: '',
     nomorSuratPermohonan: '',

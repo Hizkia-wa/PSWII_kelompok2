@@ -15,8 +15,8 @@ const EditJenisStatus = () => {
       .get(`${API}/${id}`)
       .then((res) => {
         setForm({
-          jenisStatus: res.data.jenisStatus || "Proses",
-          keterangan: res.data.keterangan || "",
+          jenisStatus: res.data.data.jenisStatus || "Proses",
+          keterangan: res.data.data.keterangan || "",
         });
         setLoading(false);
       })

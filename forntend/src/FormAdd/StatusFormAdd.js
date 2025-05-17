@@ -17,44 +17,41 @@ function StatusFormAdd({ onSuccess }) {
         keterangan,
         idJenisStatus: 1 // sesuaikan jika dinamis
       });
-      
-      // Tampilkan notifikasi sukses
+
       setNotification({
         show: true,
         message: 'Status berhasil ditambahkan!',
         type: 'success'
       });
-      
-      // Reset form
+
       setNamaStatus('');
       setKeterangan('');
-      
-      // Sembunyikan notifikasi setelah 5 detik
+
       setTimeout(() => {
         setNotification({ show: false, message: '', type: '' });
-        onSuccess(); // Panggil callback sukses
+        if (typeof onSuccess === 'function') {
+          onSuccess(); // Panggil jika fungsi diberikan
+        }
       }, 5000);
-      
+
     } catch (error) {
       console.error('Gagal menambahkan status:', error);
-      
-      // Tampilkan notifikasi error
+
       setNotification({
         show: true,
         message: `Gagal menambahkan status: ${error.response?.data?.message || error.message}`,
         type: 'error'
       });
-      
-      // Sembunyikan notifikasi error setelah 5 detik
+
       setTimeout(() => {
         setNotification({ show: false, message: '', type: '' });
       }, 5000);
+
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Style untuk notifikasi
   const getNotificationStyle = () => {
     const baseStyle = {
       padding: '12px 16px',
@@ -66,21 +63,19 @@ function StatusFormAdd({ onSuccess }) {
       animation: 'slideDown 0.3s ease-out'
     };
     
-    if (notification.type === 'success') {
-      return {
-        ...baseStyle,
-        backgroundColor: '#d1fae5',
-        color: '#065f46',
-        border: '1px solid #a7f3d0'
-      };
-    } else {
-      return {
-        ...baseStyle,
-        backgroundColor: '#fee2e2',
-        color: '#b91c1c',
-        border: '1px solid #fecaca'
-      };
-    }
+    return notification.type === 'success'
+      ? {
+          ...baseStyle,
+          backgroundColor: '#d1fae5',
+          color: '#065f46',
+          border: '1px solid #a7f3d0'
+        }
+      : {
+          ...baseStyle,
+          backgroundColor: '#fee2e2',
+          color: '#b91c1c',
+          border: '1px solid #fecaca'
+        };
   };
 
   return (
@@ -155,9 +150,7 @@ function StatusFormAdd({ onSuccess }) {
       </p>
       
       <form onSubmit={handleSubmit}>
-        <div style={{
-          marginBottom: '20px'
-        }}>
+        <div style={{ marginBottom: '20px' }}>
           <label style={{
             display: 'block',
             marginBottom: '8px',
@@ -183,7 +176,6 @@ function StatusFormAdd({ onSuccess }) {
               borderRadius: '4px',
               border: '1px solid #d1d5db',
               fontSize: '16px',
-              transition: 'border-color 0.15s ease-in-out',
               outline: 'none'
             }}
           />
@@ -196,9 +188,7 @@ function StatusFormAdd({ onSuccess }) {
           </div>
         </div>
         
-        <div style={{
-          marginBottom: '20px'
-        }}>
+        <div style={{ marginBottom: '20px' }}>
           <label style={{
             display: 'block',
             marginBottom: '8px',
@@ -253,7 +243,11 @@ function StatusFormAdd({ onSuccess }) {
           </button>
           <button 
             type="button"
-            onClick={() => onSuccess()}
+            onClick={() => {
+              if (typeof onSuccess === 'function') {
+                onSuccess();
+              }
+            }}
             disabled={isSubmitting}
             style={{
               padding: '10px 16px',

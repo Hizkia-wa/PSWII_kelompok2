@@ -264,15 +264,15 @@ const ListJenisStatus = () => {
                       <td>{item.keterangan}</td>
                       <td>
                         <div className="action-buttons">
-                          <Link to={`/jenisstatus/edit/${item.idJenisStatus}`} className="edit-button">
+                          <Link to={`/jenisstatus/edit/${item.id}`} className="edit-button">
                             <span className="edit-icon"></span>
                           </Link>
-                          <Link to={`/jenis-status/${item.idJenisStatus}`} className="detail-button">
+                          <Link to={`/jenis-status/${item.id}`} className="detail-button">
                             <span className="detail-icon"></span>
                           </Link>
                           <button
                             className="delete-button"
-                            onClick={() => handleDelete(item.idJenisStatus)}
+                            onClick={() => handleDelete(item.id)}
                           >
                             <span className="delete-icon"></span>
                           </button>

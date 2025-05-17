@@ -37,7 +37,7 @@ function PeruntukanSewaFormEdit() {
         keterangan
       });
       alert('Berhasil mengupdate data!');
-      navigate('/peruntukan-sewa');
+      navigate('/peruntukansewa');
     } catch (err) {
       console.error('Gagal mengupdate data:', err);
     }
